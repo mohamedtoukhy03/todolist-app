@@ -1,8 +1,11 @@
 package com.todolist.controller;
 
-import com.todolist.dto.UserDTO;
+import com.todolist.dto.request.UserRequest;
+import com.todolist.dto.response.UserResponse;
 import com.todolist.entity.User;
-import com.todolist.mapper.Mapper;
+import com.todolist.entity.UserAuth;
+import com.todolist.mapper.UserMapper;
+import com.todolist.service.UserAuthService;
 import com.todolist.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,36 +14,39 @@ import java.util.Map;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    Mapper mapper;
+    UserMapper mapper;
     UserService userService;
+    UserAuthService userAuthService;
 
-    public UserController(UserService userService,  Mapper mapper) {
+    public UserController(UserService userService, UserAuthService userAuthService, UserMapper mapper) {
         this.mapper = mapper;
         this.userService = userService;
+        this.userAuthService = userAuthService;
     }
 
     @GetMapping("/{id}")
-    public UserDTO getUser(@PathVariable Integer id) {
+    public UserResponse getUser(@PathVariable Integer id) {
         User user = userService.findUserById(id);
-       return mapper.toDTO(user);
+        UserAuth userAuth = userAuthService.findUserAuthById(id);
+        return mapper.toDTO(user, userAuth);
     }
 
     @PostMapping
-    public UserDTO createUser(@RequestBody UserDTO userDTO) {
-        User user = userService.createUser(mapper.toUser(userDTO));
-        return mapper.toDTO(user);
-    }
-
-    @PutMapping
-    public UserDTO updateUser(@RequestBody UserDTO userDTO) {
-        User user = userService.updateUser(mapper.toUser(userDTO));
-        return mapper.toDTO(user);
+    public UserResponse createUser(@RequestBody UserRequest userRequest) {
+        User user = mapper.toUser(userRequest);
+        UserAuth userAuth = mapper.toAuth(userRequest);
+        user.addUserAuth(userAuth);
+        user = userService.createUser(user);
+        return mapper.toDTO(user, userAuth);
     }
 
     @PatchMapping("/{id}")
-    public UserDTO patchUser(@PathVariable Integer id, @RequestBody Map<String, Object> map) {
-        User user = userService.updateUser(id, map);
-        return mapper.toDTO(user);
+    public UserResponse patchUser(@PathVariable Integer id, @RequestBody Map<String, Object> map) {
+        User u = userService.findUserById(id);
+        User user = userService.applyUser(map, u);
+        UserAuth userAuth = userAuthService.applyUserAuth(userAuthService.findUserAuthById(id), map);
+        user = userService.updateUser(user);
+        return mapper.toDTO(user, userAuth);
     }
 
     @DeleteMapping("/{id}")

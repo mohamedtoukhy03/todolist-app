@@ -19,76 +19,31 @@ public class User {
     @Column(name = "nick_name")
     private String nickName;
 
-//
-//    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-//    private UserAuth userAuth;
 
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-//    private List<Task> tasks;
 //
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-//    private List<UserAndTeam> userAndTeams;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    private UserAuth userAuth;
 
     public User() {}
-
-//    public User(String userName, String nickName, UserAuth userAuth) {
-//        this.userName = userName;
-//        this.nickName = nickName;
-//        this.userAuth = userAuth;
-//    }
 
     public User(String userName, String nickName) {
         this.userName = userName;
         this.nickName = nickName;
     }
 
-    // sync method
-//    public void addUserAuth(UserAuth userAuth) {
-//        this.userAuth = userAuth;
-//        userAuth.setUser(this);
-//    }
+    public void addUserAuth(UserAuth userAuth) {
+        this.userAuth = userAuth;
+        userAuth.setUser(this);
+    }
 
-    // sync method
-//    public void addUserAndTeam(UserAndTeam userAndTeam) {
-//        if  (this.userAndTeams == null) {
-//            this.userAndTeams = new ArrayList<>();
-//        }
-//        this.userAndTeams.add(userAndTeam);
-//        userAndTeam.setUser(this);
-//    }
 
-    // sync method
-//    public void addTask(Task task){
-//        if (this.tasks == null){
-//            this.tasks = new ArrayList<>();
-//        }
-//        this.tasks.add(task);
-//        task.setUser(this);
-//    }
+    public UserAuth getUserAuth() {
+        return userAuth;
+    }
 
-//    public UserAuth getUserAuth() {
-//        return userAuth;
-//    }
-//
-//    public void setUserAuth(UserAuth userAuth) {
-//        this.userAuth = userAuth;
-//    }
-
-//    public List<Task> getTasks() {
-//        return tasks;
-//    }
-//
-//    public void setTasks(List<Task> tasks) {
-//        this.tasks = tasks;
-//    }
-
-//    public List<UserAndTeam> getUserAndTeams() {
-//        return userAndTeams;
-//    }
-//
-//    public void setUserAndTeams(List<UserAndTeam> userAndTeams) {
-//        this.userAndTeams = userAndTeams;
-//    }
+    public void setUserAuth(UserAuth userAuth) {
+        this.userAuth = userAuth;
+    }
 
     public Integer getUserId() {
         return userId;

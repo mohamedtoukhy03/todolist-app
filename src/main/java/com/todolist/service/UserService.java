@@ -11,7 +11,7 @@ public interface UserService {
     public User findUserByNickName(String nickName);
     public User findUserById(Integer id);
     public User updateUser(User user);
-    public User updateUser(Integer id, Map<String, Object> map);
+    public User applyUser(Map<String, Object> map, User user);
     public void deleteUserById(Integer id);
     public void deleteUserByNickName(String nickName);
     public UserAuth findUserAuthByUserId(Integer id);

@@ -1,26 +1,24 @@
-package com.todolist.dao;
+package com.todolist.dao.implementation;
 
+import com.todolist.dao.UserAndTeamDAO;
 import com.todolist.entity.UserAndTeam;
 import com.todolist.entity.id.UserTeamId;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserAndTeamDAOImplementation implements  UserAndTeamDAO {
+public class UserAndTeamDAOImplementation implements UserAndTeamDAO {
     @PersistenceContext
     private EntityManager em;
 
-    // ================= Utility =================
     private <T> T findOrThrow(Class<T> type, Object id, String message) {
         T entity = em.find(type, id);
         if (entity == null) throw new EntityNotFoundException(message);
         return entity;
     }
 
-    // ================= CREATE =================
     @Override
     public UserAndTeam createUserAndTeam(UserAndTeam userAndTeam) {
         if (userAndTeam.getId() != null)
@@ -28,7 +26,6 @@ public class UserAndTeamDAOImplementation implements  UserAndTeamDAO {
         return (em.merge(userAndTeam));
     }
 
-    // ================= READ =================
     @Override
     public UserAndTeam findUserAndTeam(UserTeamId id) {
         return findOrThrow(UserAndTeam.class, id, "The specified user and team could not be found");
@@ -40,7 +37,6 @@ public class UserAndTeamDAOImplementation implements  UserAndTeamDAO {
         em.remove(userAndTeam);
     }
 
-    // ================= UPDATE =================
     @Override
     public UserAndTeam updateUserAndTeam(UserAndTeam userAndTeam) {
         findOrThrow(UserAndTeam.class, userAndTeam.getId(), "The user and team could not be found");

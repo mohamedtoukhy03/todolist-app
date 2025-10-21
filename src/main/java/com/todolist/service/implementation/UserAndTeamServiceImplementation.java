@@ -1,13 +1,14 @@
-package com.todolist.service;
+package com.todolist.service.implementation;
 
 import com.todolist.dao.UserAndTeamDAO;
 import com.todolist.entity.UserAndTeam;
 import com.todolist.entity.id.UserTeamId;
+import com.todolist.service.UserAndTeamService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserAndTeamServiceImplementation implements UserAndTeamService{
+public class UserAndTeamServiceImplementation implements UserAndTeamService {
 
     UserAndTeamDAO userAndTeamDAO;
 

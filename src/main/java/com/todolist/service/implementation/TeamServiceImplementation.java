@@ -1,10 +1,11 @@
-package com.todolist.service;
+package com.todolist.service.implementation;
 
 import com.todolist.dao.TeamDAO;
 import com.todolist.entity.Message;
 import com.todolist.entity.Task;
 import com.todolist.entity.Team;
 import com.todolist.entity.User;
+import com.todolist.service.TeamService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

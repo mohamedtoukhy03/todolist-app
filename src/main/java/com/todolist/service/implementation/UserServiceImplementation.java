@@ -1,12 +1,15 @@
-package com.todolist.service;
+package com.todolist.service.implementation;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.todolist.dao.UserDAO;
 import com.todolist.entity.*;
+import com.todolist.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -44,20 +47,16 @@ public class UserServiceImplementation implements UserService {
         return userDAO.updateUser(user);
     }
 
-    @Override
-    @Transactional
-    public User updateUser(Integer id, Map<String, Object> map) {
-        if (map.containsKey("id"))
-            throw new RuntimeException("id must be empty");
-        User user = apply(map, userDAO.findUserById(id));
-        return userDAO.updateUser(user);
-    }
 
-    private User apply(Map<String, Object> map, User user) {
-        ObjectNode x = objectMapper.convertValue(user, ObjectNode.class);
-        ObjectNode y = objectMapper.convertValue(map, ObjectNode.class);
-        x.setAll(y);
-        return objectMapper.convertValue(x, User.class);
+    @Override
+    public User applyUser(Map<String, Object> map, User user) {
+        try {
+            String json = objectMapper.writeValueAsString(map);
+            objectMapper.readerForUpdating(user).readValue(json);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return user;
     }
 
     @Override

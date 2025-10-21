@@ -15,9 +15,6 @@ public class UserAuth {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "role")
-    private String role;
-
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
     @MapsId
@@ -27,16 +24,14 @@ public class UserAuth {
     public UserAuth() {}
 
 
-    public UserAuth(String email, String password, String role) {
+    public UserAuth(String email, String password) {
         this.email = email;
         this.password = password;
-        this.role = role;
     }
 
-    public UserAuth(String email, String password, String role, User user) {
+    public UserAuth(String email, String password, User user) {
         this.email = email;
         this.password = password;
-        this.role = role;
         this.user = user;
     }
 
@@ -62,14 +57,6 @@ public class UserAuth {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public User getUser() {

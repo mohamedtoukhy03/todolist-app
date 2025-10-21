@@ -1,9 +1,9 @@
-package com.todolist.dao;
+package com.todolist.dao.implementation;
 
+import com.todolist.dao.UserDAO;
 import com.todolist.entity.*;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,14 +13,12 @@ public class UserDAOImplementation implements UserDAO {
     @PersistenceContext
     private EntityManager em;
 
-    // ================= Utility =================
     private <T> T findOrThrow(Class<T> type, Object id, String message) {
         T entity = em.find(type, id);
         if (entity == null) throw new EntityNotFoundException(message);
         return entity;
     }
 
-    // ================= CREATE =================
     @Override
     public User createUser(User user) {
         if (user.getUserId() != null)
@@ -28,7 +26,6 @@ public class UserDAOImplementation implements UserDAO {
         return em.merge(user);
     }
 
-    // ================= READ =================
     @Override
     public User findUserByNickName(String nickName) {
         return em.createQuery("SELECT u FROM User u WHERE u.nickName = :nickName", User.class)
@@ -111,7 +108,6 @@ public class UserDAOImplementation implements UserDAO {
         return em.merge(user);
     }
 
-    // ================= DELETE =================
     @Override
     public void deleteUserById(Integer id) {
         User user = findOrThrow(User.class, id, "Cannot delete non-existing user with id: " + id);

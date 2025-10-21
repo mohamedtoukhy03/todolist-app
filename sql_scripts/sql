@@ -1,0 +1,57 @@
+BEGIN;
+
+-- User table (singular "user")
+CREATE TABLE "user" (
+  user_id    SERIAL PRIMARY KEY,
+  user_name  VARCHAR(150) NOT NULL,
+  nick_name  VARCHAR(150) NOT NULL UNIQUE
+);
+
+-- Authentication details for a user (one-to-one with "user")
+CREATE TABLE user_auth (
+  user_id   INTEGER PRIMARY KEY REFERENCES "user"(user_id) ON DELETE CASCADE,
+  email     VARCHAR(255) NOT NULL UNIQUE,
+  password  VARCHAR(255) NOT NULL,
+  role      VARCHAR(50) NOT NULL DEFAULT 'user'
+);
+
+-- Teams table with parent_id for one-to-many parent-child relationship
+CREATE TABLE team (
+  team_id     SERIAL PRIMARY KEY,
+  team_name   VARCHAR(150) NOT NULL UNIQUE,
+  description TEXT,
+  parent_id   INTEGER REFERENCES team(team_id) ON DELETE SET NULL  -- parent_id -> one parent per team
+);
+
+-- Many-to-many relation between users and teams (refers to "user")
+CREATE TABLE user_and_team (
+  user_id INTEGER NOT NULL REFERENCES "user"(user_id) ON DELETE CASCADE,
+  team_id INTEGER NOT NULL REFERENCES team(team_id) ON DELETE CASCADE,
+  PRIMARY KEY (user_id, team_id)
+);
+
+-- Tasks table (task may have an owning user)
+CREATE TABLE task (
+  task_id   SERIAL PRIMARY KEY,
+  task_name VARCHAR(255) NOT NULL,
+  note      TEXT,
+  user_id   INTEGER REFERENCES "user"(user_id) ON DELETE CASCADE -- owner or creator
+);
+
+-- Table linking a task to a user and team (composite relation)
+CREATE TABLE user_team_tasks (
+  user_id INTEGER NOT NULL REFERENCES "user"(user_id) ON DELETE CASCADE,
+  team_id INTEGER NOT NULL REFERENCES team(team_id) ON DELETE CASCADE,
+  task_id INTEGER NOT NULL REFERENCES task(task_id) ON DELETE CASCADE,
+  PRIMARY KEY (user_id, team_id, task_id)
+);
+
+-- Messages (sent by a user, optionally in context of a team)
+CREATE TABLE messages (
+  message_id SERIAL PRIMARY KEY,
+  text       TEXT NOT NULL,
+  user_id    INTEGER NOT NULL REFERENCES "user"(user_id) ON DELETE CASCADE,
+  team_id    INTEGER NOT NULL REFERENCES team(team_id) ON DELETE CASCADE
+);
+
+COMMIT;

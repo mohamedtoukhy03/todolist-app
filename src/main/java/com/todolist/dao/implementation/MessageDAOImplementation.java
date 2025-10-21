@@ -1,16 +1,13 @@
-package com.todolist.dao;
+package com.todolist.dao.implementation;
 
+import com.todolist.dao.MessageDAO;
 import com.todolist.entity.Message;
 import com.todolist.entity.Team;
 import com.todolist.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Repository
 public class MessageDAOImplementation implements MessageDAO {
@@ -18,14 +15,12 @@ public class MessageDAOImplementation implements MessageDAO {
     @PersistenceContext
     private EntityManager em;
 
-    // ================= UTILITY =================
     private <T> T findOrThrow(Class<T> type, Object id, String message) {
         T entity = em.find(type, id);
         if (entity == null) throw new EntityNotFoundException(message);
         return entity;
     }
 
-    // ================= CREATE =================
     @Override
     public Message createMessage(Message message) {
         if (message.getMessageId() != null)
@@ -33,7 +28,6 @@ public class MessageDAOImplementation implements MessageDAO {
         return (em.merge(message));
     }
 
-    // ================= READ =================
     @Override
     public Message findMessageById(Integer id) {
         return findOrThrow(Message.class, id, "Message not found with id: " + id);
@@ -63,7 +57,6 @@ public class MessageDAOImplementation implements MessageDAO {
                 .orElseThrow(() -> new EntityNotFoundException("Team not found for message id: " + messageId));
     }
 
-    // ================= UPDATE =================
     @Override
     public Message updateMessage(Message message) {
         findOrThrow(Message.class, message.getMessageId(),
@@ -71,7 +64,6 @@ public class MessageDAOImplementation implements MessageDAO {
         return em.merge(message);
     }
 
-    // ================= DELETE =================
     @Override
     public void deleteMessage(Integer id) {
         Message message = findOrThrow(Message.class, id,

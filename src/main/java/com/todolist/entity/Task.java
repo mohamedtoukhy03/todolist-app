@@ -29,7 +29,6 @@ public class Task {
             CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "tasks")
     private List<UserAndTeam> userAndTeam;
 
-    // sync method
     public void addUserAndTeam(UserAndTeam userAndTeam) {
         if (this.userAndTeam == null) {
             this.userAndTeam = new ArrayList<>();

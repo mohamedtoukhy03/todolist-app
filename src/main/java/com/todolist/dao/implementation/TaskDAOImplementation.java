@@ -1,11 +1,11 @@
-package com.todolist.dao;
+package com.todolist.dao.implementation;
 
+import com.todolist.dao.TaskDAO;
 import com.todolist.entity.Task;
 import com.todolist.entity.Team;
 import com.todolist.entity.User;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,7 +21,6 @@ public class TaskDAOImplementation implements TaskDAO {
         return entity;
     }
 
-    // ================= CREATE =================
     @Override
     public Task createTask(Task task) {
         if (task.getTaskId() != null)
@@ -29,7 +28,7 @@ public class TaskDAOImplementation implements TaskDAO {
         return (em.merge(task));
     }
 
-    // ================= READ =================
+
     @Override
     public Task findTaskById(Integer id) {
         return findOrThrow(Task.class, id, "Task with id " + id + " not found");
@@ -71,14 +70,12 @@ public class TaskDAOImplementation implements TaskDAO {
                 .orElseThrow(() -> new EntityNotFoundException("User for task " + taskId + " not found"));
     }
 
-    // ================= UPDATE =================
     @Override
     public Task updateTask(Task task) {
         findOrThrow(Task.class, task.getTaskId(), "Task with id " + task.getTaskId() + " not found");
         return em.merge(task);
     }
 
-    // ================= DELETE =================
     @Override
     public void deleteTask(Integer id) {
         Task task = findOrThrow(Task.class, id, "Task with id " + id + " not found");

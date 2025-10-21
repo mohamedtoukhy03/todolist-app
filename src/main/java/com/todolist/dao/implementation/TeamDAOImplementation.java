@@ -1,9 +1,9 @@
-package com.todolist.dao;
+package com.todolist.dao.implementation;
 
+import com.todolist.dao.TeamDAO;
 import com.todolist.entity.*;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,14 +13,12 @@ public class TeamDAOImplementation implements TeamDAO {
     @PersistenceContext
     private EntityManager em;
 
-    // ================= Utility =================
     private <T> T findOrThrow(Class<T> type, Object id, String message) {
         T entity = em.find(type, id);
         if (entity == null) throw new EntityNotFoundException(message);
         return entity;
     }
 
-    // ================= CREATE =================
     @Override
     public Team createTeam(Team team) {
         if (team.getTeamId() != null)
@@ -28,7 +26,6 @@ public class TeamDAOImplementation implements TeamDAO {
         return (em.merge(team));
     }
 
-    // ================= READ =================
     @Override
     public Team findTeamById(Integer id) {
         return findOrThrow(Team.class, id, "Team not found with id: " + id);
@@ -104,7 +101,6 @@ public class TeamDAOImplementation implements TeamDAO {
         return children;
     }
 
-    // ================= UPDATE =================
     @Override
     public Team updateTeam(Team team) {
         findOrThrow(Team.class, team.getTeamId(),
@@ -112,7 +108,6 @@ public class TeamDAOImplementation implements TeamDAO {
         return em.merge(team);
     }
 
-    // ================= DELETE =================
     @Override
     public void deleteTeamById(Integer id) {
         Team team = findOrThrow(Team.class, id,

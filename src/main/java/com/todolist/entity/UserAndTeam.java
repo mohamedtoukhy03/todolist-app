@@ -22,9 +22,6 @@ public class UserAndTeam {
     @JoinColumn(name = "user_id")
     private User user;
 
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userAndTeam")
-//    private List<Message> messages;
-
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.REFRESH})
     @JoinTable(
@@ -37,16 +34,6 @@ public class UserAndTeam {
     )
     private List<Task> tasks;
 
-
-    // addition sync method
-//    public void  addMessage(Message message) {
-//        if (this.messages == null) {
-//            this.messages = new ArrayList<>();
-//        }
-//        this.messages.add(message);
-//        message.setUserAndTeam(this);
-//    }
-
     public void  addTask(Task task) {
         if (this.tasks == null) {
             this.tasks = new ArrayList<>();
@@ -54,11 +41,6 @@ public class UserAndTeam {
         this.tasks.add(task);
         task.getUserAndTeam().add(this);
     }
-
-    // deletion sync method
-
-    // deletion sync method
-
 
     public List<Task> getTasks() {
         return tasks;
@@ -74,16 +56,6 @@ public class UserAndTeam {
         this.team = team;
         this.user = user;
     }
-
-//    public List<Message> getMessages() {
-//        return messages;
-//    }
-//
-//    public void setMessages(List<Message> messages) {
-//        this.messages = messages;
-//    }
-
-
 
     public UserTeamId getId() {
         return id;
