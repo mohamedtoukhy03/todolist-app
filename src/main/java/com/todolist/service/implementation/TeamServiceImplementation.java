@@ -1,5 +1,6 @@
 package com.todolist.service.implementation;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todolist.dao.TeamDAO;
 import com.todolist.entity.Message;
 import com.todolist.entity.Task;
@@ -9,16 +10,20 @@ import com.todolist.service.TeamService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
 public class TeamServiceImplementation implements TeamService {
 
     TeamDAO teamDAO;
+    ObjectMapper objectMapper;
 
-    public TeamServiceImplementation(TeamDAO teamDAO) {
+    public TeamServiceImplementation(TeamDAO teamDAO, ObjectMapper objectMapper) {
         this.teamDAO = teamDAO;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -36,6 +41,17 @@ public class TeamServiceImplementation implements TeamService {
     @Transactional
     public Team updateTeam(Team team) {
         return teamDAO.updateTeam(team);
+    }
+
+    @Override
+    public Team applyTeam(Team team, Map<String, Object> map) {
+        try {
+            String json = objectMapper.writeValueAsString(map);
+            objectMapper.readerForUpdating(team).readValue(json);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return team;
     }
 
     @Override
