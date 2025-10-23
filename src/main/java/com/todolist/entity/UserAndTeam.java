@@ -25,7 +25,7 @@ public class UserAndTeam {
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.REFRESH})
     @JoinTable(
-            name = "user_team_tasks",
+            name = "user_team_task",
             joinColumns = {
                     @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
                     @JoinColumn(name = "team_id", referencedColumnName = "team_id")
