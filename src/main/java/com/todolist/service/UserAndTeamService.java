@@ -1,11 +1,13 @@
 package com.todolist.service;
 
+import com.todolist.dto.request.UserAndTeamRequest;
+import com.todolist.dto.response.UserAndTeamResponse;
 import com.todolist.entity.UserAndTeam;
 import com.todolist.entity.id.UserTeamId;
 
 public interface UserAndTeamService {
-    public UserAndTeam createUserAndTeam(UserAndTeam userAndTeam);
-    public UserAndTeam findUserAndTeam(UserTeamId id);
+    public UserAndTeamResponse createUserAndTeam(UserAndTeamRequest userAndTeamRequest);
+    public UserAndTeamResponse findUserAndTeam(UserTeamId id);
     public void deleteUserAndTeam(UserTeamId id);
-    public UserAndTeam updateUserAndTeam(UserAndTeam userAndTeam);
+    public UserAndTeamResponse updateUserAndTeam(UserAndTeamRequest userAndTeamRequest);
 }

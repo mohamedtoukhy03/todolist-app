@@ -40,68 +40,7 @@ public class UserDAOImplementation implements UserDAO {
         return findOrThrow(User.class, id, "User not found with id: " + id);
     }
 
-    @Override
-    public UserAuth findUserAuthByUserId(Integer id) {
-        return em.createQuery("SELECT ua FROM UserAuth ua WHERE ua.user.userId = :id", UserAuth.class)
-                .setParameter("id", id)
-                .getResultStream()
-                .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException("UserAuth not found for user id: " + id));
-    }
 
-    @Override
-    public List<Task> findIndividualTaskByUserId(Integer id) {
-        List<Task> tasks = em.createQuery(
-                        "SELECT t FROM Task t WHERE t.user.userId = :id", Task.class)
-                .setParameter("id", id)
-                .getResultList();
-
-        if (tasks.isEmpty())
-            throw new EntityNotFoundException("No individual tasks found for user id: " + id);
-
-        return tasks;
-    }
-
-    @Override
-    public List<Team> findTeamByUserId(Integer id) {
-        List<Team> teams = em.createQuery(
-                        "SELECT ut.team FROM UserAndTeam ut WHERE ut.user.userId = :id", Team.class)
-                .setParameter("id", id)
-                .getResultList();
-
-        if (teams.isEmpty())
-            throw new EntityNotFoundException("No teams found for user id: " + id);
-
-        return teams;
-    }
-
-    @Override
-    public List<Task> findTeamTaskByUserId(Integer id) {
-        List<Task> tasks = em.createQuery(
-                        "SELECT t FROM Task t JOIN t.userAndTeam ut WHERE ut.user.userId = :id", Task.class)
-                .setParameter("id", id)
-                .getResultList();
-
-        if (tasks.isEmpty())
-            throw new EntityNotFoundException("No team tasks found for user id: " + id);
-
-        return tasks;
-    }
-
-    @Override
-    public List<Message> findMessageByUserId(Integer id) {
-        List<Message> messages = em.createQuery(
-                        "SELECT m FROM Message m JOIN m.userAndTeam ut WHERE ut.user.userId = :id", Message.class)
-                .setParameter("id", id)
-                .getResultList();
-
-        if (messages.isEmpty())
-            throw new EntityNotFoundException("No messages found for user id: " + id);
-
-        return messages;
-    }
-
-    // ================= UPDATE =================
     @Override
     public User updateUser(User user) {
         findOrThrow(User.class, user.getUserId(), "Cannot update non-existing user with id: " + user.getUserId());

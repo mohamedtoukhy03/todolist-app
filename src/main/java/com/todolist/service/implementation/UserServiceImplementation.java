@@ -4,7 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.todolist.dao.UserDAO;
+import com.todolist.dto.request.UserRequest;
+import com.todolist.dto.response.UserResponse;
 import com.todolist.entity.*;
+import com.todolist.mapper.UserMapper;
 import com.todolist.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,44 +22,56 @@ public class UserServiceImplementation implements UserService {
 
     UserDAO  userDAO;
     ObjectMapper objectMapper;
+    UserMapper userMapper;
 
-    public UserServiceImplementation(UserDAO userDAO,  ObjectMapper objectMapper) {
+    public UserServiceImplementation(UserDAO userDAO,  ObjectMapper objectMapper, UserMapper userMapper) {
+        this.userMapper = userMapper;
         this.userDAO = userDAO;
         this.objectMapper = objectMapper;
     }
 
     @Override
     @Transactional
-    public User createUser(User user) {
-        return userDAO.createUser(user);
+    public UserResponse createUser(UserRequest userRequest) {
+        User u = userMapper.toUser(userRequest);
+        u = userDAO.createUser(u);
+        return userMapper.toDTO(u, u.getUserAuth());
+
     }
 
     @Override
-    public User findUserByNickName(String nickName) {
-        return userDAO.findUserByNickName(nickName);
+    public UserResponse findUserByNickName(String nickName) {
+        User u =  userDAO.findUserByNickName(nickName);
+        return userMapper.toDTO(u, u.getUserAuth());
     }
 
     @Override
-    public User findUserById(Integer id) {
-        return userDAO.findUserById(id);
+    public UserResponse findUserById(Integer id) {
+        User u = userDAO.findUserById(id);
+        return userMapper.toDTO(u, u.getUserAuth());
     }
 
     @Override
     @Transactional
-    public User updateUser(User user) {
-        return userDAO.updateUser(user);
+    public UserResponse updateUser(UserRequest userRequest) {
+        User u = userMapper.toUser(userRequest);
+        u = userDAO.updateUser(u);
+        return userMapper.toDTO(u, u.getUserAuth());
     }
 
 
     @Override
-    public User applyUser(Map<String, Object> map, User user) {
+    @Transactional
+    public UserResponse applyUser(Map<String, Object> map, Integer id) {
+        User user = userDAO.findUserById(id);
         try {
             String json = objectMapper.writeValueAsString(map);
             objectMapper.readerForUpdating(user).readValue(json);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return user;
+        user = userDAO.updateUser(user);
+        return userMapper.toDTO(user, user.getUserAuth());
     }
 
     @Override
@@ -69,30 +84,5 @@ public class UserServiceImplementation implements UserService {
     @Transactional
     public void deleteUserByNickName(String nickName) {
         userDAO.deleteUserByNickName(nickName);
-    }
-
-    @Override
-    public UserAuth findUserAuthByUserId(Integer id) {
-        return userDAO.findUserAuthByUserId(id);
-    }
-
-    @Override
-    public List<Task> findIndividualTaskByUserId(Integer id) {
-        return userDAO.findIndividualTaskByUserId(id);
-    }
-
-    @Override
-    public List<Team> findTeamByUserId(Integer id) {
-        return  userDAO.findTeamByUserId(id);
-    }
-
-    @Override
-    public List<Task> findTeamTaskByUserId(Integer id) {
-        return userDAO.findTeamTaskByUserId(id);
-    }
-
-    @Override
-    public List<Message> findMessageByUserId(Integer id) {
-        return userDAO.findMessageByUserId(id);
     }
 }

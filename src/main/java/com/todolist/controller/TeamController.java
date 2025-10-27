@@ -14,31 +14,24 @@ import java.util.Map;
 @RequestMapping("/team")
 public class TeamController {
     TeamService teamService;
-    TeamMapper teamMapper;
 
-    public TeamController(TeamService teamService,  TeamMapper teamMapper) {
+    public TeamController(TeamService teamService) {
         this.teamService = teamService;
-        this.teamMapper = teamMapper;
     }
 
     @GetMapping("/{id}")
     public TeamResponse getTeam(@PathVariable Integer id) {
-        Team team = teamService.findTeamById(id);
-        return teamMapper.toDTO(team);
+       return teamService.findTeamById(id);
     }
 
     @PostMapping
     public TeamResponse addTeam(@RequestBody TeamRequest teamRequest) {
-        Team team = teamMapper.toEntity(teamRequest);
-        team = teamService.createTeam(team);
-        return teamMapper.toDTO(team);
+       return teamService.createTeam(teamRequest);
     }
 
     @PatchMapping("/{id}")
     public TeamResponse updateTeam(@PathVariable Integer id, @RequestBody Map<String, Object> map) {
-        Team team = teamService.applyTeam(teamService.findTeamById(id), map);
-        team = teamService.updateTeam(team);
-        return teamMapper.toDTO(team);
+        return teamService.applyTeam(id, map);
     }
 
     @DeleteMapping("/{id}")

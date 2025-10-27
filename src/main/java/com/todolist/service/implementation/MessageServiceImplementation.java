@@ -1,9 +1,12 @@
 package com.todolist.service.implementation;
 
 import com.todolist.dao.MessageDAO;
+import com.todolist.dto.request.MessageRequest;
+import com.todolist.dto.response.MessageResponse;
 import com.todolist.entity.Message;
 import com.todolist.entity.Team;
 import com.todolist.entity.User;
+import com.todolist.mapper.MessageMapper;
 import com.todolist.service.MessageService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,41 +15,38 @@ import org.springframework.transaction.annotation.Transactional;
 public class MessageServiceImplementation implements MessageService {
 
     MessageDAO messageDAO;
+    MessageMapper messageMapper;
 
-    public MessageServiceImplementation(MessageDAO messageDAO) {
+    public MessageServiceImplementation(MessageDAO messageDAO, MessageMapper messageMapper) {
         this.messageDAO = messageDAO;
+        this.messageMapper = messageMapper;
     }
 
     @Override
     @Transactional
-    public Message createMessage(Message message) {
-        return messageDAO.createMessage(message);
+    public MessageResponse createMessage(MessageRequest messageRequest) {
+        Message message = messageMapper.toMessage(messageRequest);
+        message = messageDAO.createMessage(message);
+        return messageMapper.toDTO(message);
     }
 
     @Override
-    public Message findMessageById(Integer id) {
-        return messageDAO.findMessageById(id);
+    public MessageResponse findMessageById(Integer id) {
+        Message message = messageDAO.findMessageById(id);
+        return messageMapper.toDTO(message);
     }
 
     @Override
     @Transactional
-    public Message updateMessage(Message message) {
-        return messageDAO.updateMessage(message);
+    public MessageResponse updateMessage(MessageRequest messageRequest) {
+        Message message = messageMapper.toMessage(messageRequest);
+        message = messageDAO.updateMessage(message);
+        return messageMapper.toDTO(message);
     }
 
     @Override
     @Transactional
     public void deleteMessage(Integer id) {
         messageDAO.deleteMessage(id);
-    }
-
-    @Override
-    public User findUserByMessageId(Integer messageId) {
-        return messageDAO.findUserByMessageId(messageId);
-    }
-
-    @Override
-    public Team findTeamByMessageId(Integer messageId) {
-        return messageDAO.findTeamByMessageId(messageId);
     }
 }

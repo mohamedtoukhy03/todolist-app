@@ -12,31 +12,23 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/message")
 public class MessageController {
     MessageService messageService;
-    MessageMapper messageMapper;
 
-    public  MessageController(MessageService messageService, MessageMapper messageMapper) {
+    public  MessageController(MessageService messageService) {
         this.messageService = messageService;
-        this.messageMapper = messageMapper;
     }
 
     @GetMapping("/{id}")
     public MessageResponse getMessageById(@PathVariable Integer id) {
-        Message message = messageService.findMessageById(id);
-        return messageMapper.toDTO(message);
+        return messageService.findMessageById(id);
     }
 
     @PostMapping
     public MessageResponse addMessage(@RequestBody MessageRequest messageRequest) {
-        Message message = messageMapper.toMessage(messageRequest);
-        message = messageService.createMessage(message);
-        return messageMapper.toDTO(message);
+       return messageService.createMessage(messageRequest);
     }
 
     @DeleteMapping("/{id}")
     public void deleteMessageById(@PathVariable Integer id) {
         messageService.deleteMessage(id);
     }
-
-
-
 }

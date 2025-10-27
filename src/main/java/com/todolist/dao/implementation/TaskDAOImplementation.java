@@ -7,6 +7,7 @@ import com.todolist.entity.User;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Repository;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 @Repository
@@ -28,47 +29,23 @@ public class TaskDAOImplementation implements TaskDAO {
         return (em.merge(task));
     }
 
+    @Override
+    public List<Task> findTasksByTeamId(Integer teamId) {
+        List<Task> tasks = em.createQuery(
+                "SELECT t FROM Task t JOIN t.userAndTeam ut WHERE ut.id.teamId = :teamId", Task.class)
+                        .setParameter("teamId", teamId)
+                        .getResultList();
+        if (tasks.isEmpty())
+            throw new EntityNotFoundException("No tasks found for team " + teamId);
+        return tasks;
+    }
+
 
     @Override
     public Task findTaskById(Integer id) {
         return findOrThrow(Task.class, id, "Task with id " + id + " not found");
     }
 
-    @Override
-    public List<Team> findTeamByTaskId(Integer taskId) {
-        List<Team> teams = em.createQuery(
-                        "SELECT ut.team FROM Task t JOIN t.userAndTeam ut WHERE t.taskId = :taskId", Team.class)
-                .setParameter("taskId", taskId)
-                .getResultList();
-
-        if (teams.isEmpty())
-            throw new EntityNotFoundException("No teams found for task " + taskId);
-
-        return teams;
-    }
-
-    @Override
-    public List<User> findUserWithTeamTaskByTaskId(Integer taskId) {
-        List<User> users = em.createQuery(
-                        "SELECT ut.user FROM Task t JOIN t.userAndTeam ut WHERE t.taskId = :taskId", User.class)
-                .setParameter("taskId", taskId)
-                .getResultList();
-
-        if (users.isEmpty())
-            throw new EntityNotFoundException("No users found for team task " + taskId);
-
-        return users;
-    }
-
-    @Override
-    public User findUserWithIndividualTaskByTaskId(Integer taskId) {
-        return em.createQuery(
-                        "SELECT t.user FROM Task t WHERE t.taskId = :taskId", User.class)
-                .setParameter("taskId", taskId)
-                .getResultStream()
-                .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException("User for task " + taskId + " not found"));
-    }
 
     @Override
     public Task updateTask(Task task) {
@@ -80,5 +57,26 @@ public class TaskDAOImplementation implements TaskDAO {
     public void deleteTask(Integer id) {
         Task task = findOrThrow(Task.class, id, "Task with id " + id + " not found");
         em.remove(task);
+    }
+
+    @Override
+    public List<Task> findTasksByUserId(Integer userId) {
+        List<Task> tasks = em.createQuery(
+                "SELECT t FROM Task t JOIN t.userAndTeam ut WHERE ut.id.userId = :userId", Task.class)
+                .setParameter("userId", userId)
+                .getResultList();
+        if (tasks.isEmpty())
+            throw new EntityNotFoundException("No tasks found for user " + userId);
+        return tasks;
+    }
+
+    @Override
+    public List<Task> findTasksByTeamIdAndUserId(Integer teamId, Integer userId) {
+        List<Task> tasks = em.createQuery(
+                "SELECT t FROM Task t JOIN t.userAndTeam ut WHERE ut.id.userId = :userId AND ut.id.teamId = :teamId", Task.class)
+                .getResultList();
+        if (tasks.isEmpty())
+            throw new EntityNotFoundException("No tasks found for team " + teamId);
+        return tasks;
     }
 }

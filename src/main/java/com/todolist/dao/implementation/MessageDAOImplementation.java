@@ -33,29 +33,6 @@ public class MessageDAOImplementation implements MessageDAO {
         return findOrThrow(Message.class, id, "Message not found with id: " + id);
     }
 
-    @Override
-    public User findUserByMessageId(Integer messageId) {
-        return em.createQuery(
-                        "SELECT ut.user FROM Message m JOIN m.userAndTeam ut WHERE m.messageId = :messageId",
-                        User.class
-                )
-                .setParameter("messageId", messageId)
-                .getResultStream()
-                .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException("User not found for message id: " + messageId));
-    }
-
-    @Override
-    public Team findTeamByMessageId(Integer messageId) {
-        return em.createQuery(
-                        "SELECT ut.team FROM Message m JOIN m.userAndTeam ut WHERE m.messageId = :messageId",
-                        Team.class
-                )
-                .setParameter("messageId", messageId)
-                .getResultStream()
-                .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException("Team not found for message id: " + messageId));
-    }
 
     @Override
     public Message updateMessage(Message message) {

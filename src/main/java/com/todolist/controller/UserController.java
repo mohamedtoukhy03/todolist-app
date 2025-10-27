@@ -14,39 +14,27 @@ import java.util.Map;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    UserMapper mapper;
     UserService userService;
     UserAuthService userAuthService;
 
-    public UserController(UserService userService, UserAuthService userAuthService, UserMapper mapper) {
-        this.mapper = mapper;
+    public UserController(UserService userService, UserAuthService userAuthService) {
         this.userService = userService;
         this.userAuthService = userAuthService;
     }
 
     @GetMapping("/{id}")
     public UserResponse getUser(@PathVariable Integer id) {
-        User user = userService.findUserById(id);
-        UserAuth userAuth = userAuthService.findUserAuthById(id);
-        return mapper.toDTO(user, userAuth);
+        return userService.findUserById(id);
     }
 
     @PostMapping
     public UserResponse createUser(@RequestBody UserRequest userRequest) {
-        User user = mapper.toUser(userRequest);
-        UserAuth userAuth = mapper.toAuth(userRequest);
-        user.addUserAuth(userAuth);
-        user = userService.createUser(user);
-        return mapper.toDTO(user, userAuth);
+        return userService.createUser(userRequest);
     }
 
     @PatchMapping("/{id}")
     public UserResponse patchUser(@PathVariable Integer id, @RequestBody Map<String, Object> map) {
-        User u = userService.findUserById(id);
-        User user = userService.applyUser(map, u);
-        UserAuth userAuth = userAuthService.applyUserAuth(userAuthService.findUserAuthById(id), map);
-        user = userService.updateUser(user);
-        return mapper.toDTO(user, userAuth);
+        return userService.applyUser(map, id);
     }
 
     @DeleteMapping("/{id}")

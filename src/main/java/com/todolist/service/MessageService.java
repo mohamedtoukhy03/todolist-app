@@ -1,14 +1,11 @@
 package com.todolist.service;
 
-import com.todolist.entity.Message;
-import com.todolist.entity.Team;
-import com.todolist.entity.User;
+import com.todolist.dto.request.MessageRequest;
+import com.todolist.dto.response.MessageResponse;
 
 public interface MessageService {
-    public Message createMessage(Message message);
-    public Message findMessageById(Integer id);
-    public Message updateMessage(Message message);
+    public MessageResponse createMessage(MessageRequest messageRequest);
+    public MessageResponse findMessageById(Integer id);
+    public MessageResponse updateMessage(MessageRequest messageRequest);
     public void deleteMessage(Integer id);
-    public User findUserByMessageId(Integer messageId);
-    public Team findTeamByMessageId(Integer messageId);
 }

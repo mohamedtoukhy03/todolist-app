@@ -2,9 +2,7 @@ package com.todolist.controller;
 
 import com.todolist.dto.request.UserAndTeamRequest;
 import com.todolist.dto.response.UserAndTeamResponse;
-import com.todolist.entity.UserAndTeam;
 import com.todolist.entity.id.UserTeamId;
-import com.todolist.mapper.UserAndTeamMapper;
 import com.todolist.service.UserAndTeamService;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,25 +11,20 @@ import org.springframework.web.bind.annotation.*;
 public class UserAndTeamController {
 
     private UserAndTeamService userAndTeamService;
-    private UserAndTeamMapper userAndTeamMapper;
 
-    public UserAndTeamController(UserAndTeamService userAndTeamService, UserAndTeamMapper userAndTeamMapper) {
+    public UserAndTeamController(UserAndTeamService userAndTeamService) {
         this.userAndTeamService = userAndTeamService;
-        this.userAndTeamMapper = userAndTeamMapper;
     }
 
     @PostMapping
     public UserAndTeamResponse createUserAndTeam(@RequestBody UserAndTeamRequest userAndTeamRequest) {
-        UserAndTeam userAndTeam = userAndTeamMapper.toEntity(userAndTeamRequest);
-        userAndTeam =  userAndTeamService.createUserAndTeam(userAndTeam);
-        return userAndTeamMapper.toDTO(userAndTeam);
+       return userAndTeamService.createUserAndTeam(userAndTeamRequest);
     }
 
     @GetMapping("/{teamId}/{userId}")
     public UserAndTeamResponse getUserAndTeamById(@PathVariable Integer teamId, @PathVariable Integer userId) {
         UserTeamId userTeamId = new UserTeamId(teamId, userId);
-        UserAndTeam userAndTeam = userAndTeamService.findUserAndTeam(userTeamId);
-        return userAndTeamMapper.toDTO(userAndTeam);
+        return userAndTeamService.findUserAndTeam(userTeamId);
     }
 
     @DeleteMapping("/{teamId}/{userId}")

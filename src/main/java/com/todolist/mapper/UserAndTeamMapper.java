@@ -1,5 +1,7 @@
 package com.todolist.mapper;
 
+import com.todolist.dao.TeamDAO;
+import com.todolist.dao.UserDAO;
 import com.todolist.dto.request.UserAndTeamRequest;
 import com.todolist.dto.response.UserAndTeamResponse;
 import com.todolist.entity.UserAndTeam;
@@ -12,12 +14,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserAndTeamMapper {
 
-    UserService userService;
-    TeamService teamService;
+   UserDAO userDAO;
+   TeamDAO teamDAO;
 
-    public UserAndTeamMapper(UserService userService, TeamService teamService) {
-        this.userService = userService;
-        this.teamService = teamService;
+    public UserAndTeamMapper(UserDAO userDAO, TeamDAO teamDAO) {
+        this.userDAO = userDAO;
+        this.teamDAO = teamDAO;
     }
 
     public UserAndTeamResponse toDTO(UserAndTeam userAndTeam) {
@@ -28,8 +30,8 @@ public class UserAndTeamMapper {
 
     public UserAndTeam toEntity(UserAndTeamRequest userAndTeamRequest) {
         UserAndTeam userAndTeam = new UserAndTeam();
-        userAndTeam.setUser(userService.findUserById(userAndTeamRequest.getUserId()));
-        userAndTeam.setTeam(teamService.findTeamById(userAndTeamRequest.getTeamId()));
+        userAndTeam.setUser(userDAO.findUserById(userAndTeamRequest.getUserId()));
+        userAndTeam.setTeam(teamDAO.findTeamById(userAndTeamRequest.getTeamId()));
         return userAndTeam;
     }
 }

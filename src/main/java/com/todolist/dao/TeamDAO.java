@@ -8,14 +8,10 @@ import com.todolist.entity.User;
 import java.util.List;
 
 public interface TeamDAO {
-    // CRUD features
     public Team createTeam(Team team);
     public Team findTeamById(Integer id);
     public Team updateTeam(Team team);
     public void deleteTeamById(Integer id);
-    public List<User> findUserByTeamId(Integer id);
-    public List<Task> findTaskByTeamId(Integer id);
-    public List<Message> findMessageByTeamId(Integer id);
     public List<Team> findParentOfTeam(Integer id);
     public List<Team> findChildOfTeam(Integer id);
 }

@@ -1,5 +1,9 @@
 package com.todolist.service;
 
+import com.todolist.dto.request.TaskRequest;
+import com.todolist.dto.response.TaskResponse;
+import com.todolist.dto.response.TeamResponse;
+import com.todolist.dto.response.UserResponse;
 import com.todolist.entity.Task;
 import com.todolist.entity.Team;
 import com.todolist.entity.User;
@@ -7,11 +11,11 @@ import com.todolist.entity.User;
 import java.util.List;
 
 public interface TaskService {
-    public Task createTask(Task task);
-    public Task findTaskById(Integer id);
-    public Task updateTask(Task task);
+    public TaskResponse createTask(TaskRequest taskRequest);
+    public List<TaskResponse> findTasksByTeamId(Integer teamId);
+    public TaskResponse findTaskById(Integer id);
+    public TaskResponse updateTask(TaskRequest taskRequest);
     public void deleteTask(Integer id);
-    public List<Team> findTeamByTaskId(Integer taskId);
-    public List<User> findUserWithTeamTaskByTaskId(Integer taskId);
-    public User findUserWithIndividualTaskByTaskId(Integer taskId);
+    public List<TaskResponse> findTasksByUserId(Integer userId);
+    public List<TaskResponse> findTasksByTeamIdAndUserId(Integer teamId, Integer userId);
 }

@@ -13,9 +13,4 @@ public interface UserDAO {
     public User updateUser(User user);
     public void deleteUserById(Integer id);
     public void deleteUserByNickName(String nickName);
-    public UserAuth findUserAuthByUserId(Integer id);
-    public List<Task> findIndividualTaskByUserId(Integer id);
-    public List<Team> findTeamByUserId(Integer id);
-    public List<Task> findTeamTaskByUserId(Integer id);
-    public List<Message> findMessageByUserId(Integer id);
 }

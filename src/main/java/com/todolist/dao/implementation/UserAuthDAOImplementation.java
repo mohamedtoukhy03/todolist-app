@@ -32,8 +32,8 @@ public class UserAuthDAOImplementation implements UserAuthDAO {
     }
 
     @Override
-    public void deleteUserAuth(UserAuth userAuth) {
-        userAuth = findOrThrow(UserAuth.class, userAuth.getUserId(), "UserAuth does not exist");
+    public void deleteUserAuth(Integer id) {
+        UserAuth userAuth = findOrThrow(UserAuth.class, id, "UserAuth does not exist");
         em.remove(userAuth);
     }
 

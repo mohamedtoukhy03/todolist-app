@@ -2,34 +2,39 @@ package com.todolist.controller;
 
 import com.todolist.dto.request.TaskRequest;
 import com.todolist.dto.response.TaskResponse;
-import com.todolist.entity.Task;
-import com.todolist.mapper.TaskMapper;
 import com.todolist.service.TaskService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/task")
 public class TaskController {
     TaskService taskService;
-    TaskMapper taskMapper;
 
 
-    public TaskController(TaskService taskService, TaskMapper taskMapper) {
+    public TaskController(TaskService taskService) {
         this.taskService = taskService;
-        this.taskMapper = taskMapper;
     }
 
-    @GetMapping("/{id}")
-    public TaskResponse getTaskById(@PathVariable Integer id) {
-        Task task = taskService.findTaskById(id);
-        return taskMapper.toDTO(task);
+    @GetMapping("/{userId}/{teamId}")
+    public List<TaskResponse> findTasksByUserIdAndTeamId(@PathVariable Integer userId, @PathVariable Integer teamId) {
+        return taskService.findTasksByTeamIdAndUserId(userId, teamId);
+    }
+
+    @GetMapping("/{teamId}")
+    public List<TaskResponse> getTasks(@PathVariable Integer teamId) {
+        return taskService.findTasksByTeamId(teamId);
+    }
+
+    @GetMapping("/{userId}")
+    public List<TaskResponse> getTasksByUserId(@PathVariable Integer userId) {
+        return taskService.findTasksByUserId(userId);
     }
 
     @PostMapping
     public TaskResponse createTask(@RequestBody TaskRequest taskRequest) {
-        Task task = taskMapper.toTask(taskRequest);
-        task = taskService.createTask(task);
-        return taskMapper.toDTO(task);
+        return taskService.createTask(taskRequest);
     }
 
 

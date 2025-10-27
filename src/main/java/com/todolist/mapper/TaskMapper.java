@@ -1,5 +1,6 @@
 package com.todolist.mapper;
 
+import com.todolist.dao.UserAndTeamDAO;
 import com.todolist.dto.request.TaskRequest;
 import com.todolist.dto.response.TaskResponse;
 import com.todolist.entity.Task;
@@ -13,10 +14,10 @@ import java.util.stream.Collectors;
 @Component
 public class TaskMapper {
 
-    private UserAndTeamService userAndTeamService;
+    private UserAndTeamDAO userAndTeamDAO;
 
-    public TaskMapper(UserAndTeamService userAndTeamService) {
-        this.userAndTeamService = userAndTeamService;
+    public TaskMapper(UserAndTeamDAO userAndTeamDAO) {
+        this.userAndTeamDAO = userAndTeamDAO;
     }
 
     public TaskResponse toDTO(Task task){
@@ -35,7 +36,7 @@ public class TaskMapper {
         Task task = new Task();
         task.setTaskName(taskResponse.getTaskName());
         task.setNote(taskResponse.getTaskNote());
-        taskResponse.getUserTeamIds().forEach(id -> task.addUserAndTeam(userAndTeamService.findUserAndTeam(id)));
+        taskResponse.getUserTeamIds().forEach(id -> task.addUserAndTeam(userAndTeamDAO.findUserAndTeam(id)));
         return task;
     }
 }

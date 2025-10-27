@@ -30,48 +30,7 @@ public class TeamDAOImplementation implements TeamDAO {
     public Team findTeamById(Integer id) {
         return findOrThrow(Team.class, id, "Team not found with id: " + id);
     }
-
-    @Override
-    public List<User> findUserByTeamId(Integer id) {
-        List<User> users = em.createQuery(
-                        "SELECT ut.user FROM UserAndTeam ut WHERE ut.team.teamId = :id",
-                        User.class)
-                .setParameter("id", id)
-                .getResultList();
-
-        if (users.isEmpty())
-            throw new EntityNotFoundException("No users found for team with id: " + id);
-
-        return users;
-    }
-
-    @Override
-    public List<Task> findTaskByTeamId(Integer id) {
-        List<Task> tasks = em.createQuery(
-                        "SELECT t FROM Task t JOIN t.userAndTeam ut WHERE ut.team.teamId = :id",
-                        Task.class)
-                .setParameter("id", id)
-                .getResultList();
-
-        if (tasks.isEmpty())
-            throw new EntityNotFoundException("No tasks found for team with id: " + id);
-
-        return tasks;
-    }
-
-    @Override
-    public List<Message> findMessageByTeamId(Integer id) {
-        List<Message> messages = em.createQuery(
-                        "SELECT m FROM Message m JOIN m.userAndTeam ut WHERE ut.team.teamId = :id",
-                        Message.class)
-                .setParameter("id", id)
-                .getResultList();
-
-        if (messages.isEmpty())
-            throw new EntityNotFoundException("No messages found for team with id: " + id);
-
-        return messages;
-    }
+    
 
     @Override
     public List<Team> findParentOfTeam(Integer id) {

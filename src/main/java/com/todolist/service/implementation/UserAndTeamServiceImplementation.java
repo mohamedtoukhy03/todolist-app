@@ -1,8 +1,11 @@
 package com.todolist.service.implementation;
 
 import com.todolist.dao.UserAndTeamDAO;
+import com.todolist.dto.request.UserAndTeamRequest;
+import com.todolist.dto.response.UserAndTeamResponse;
 import com.todolist.entity.UserAndTeam;
 import com.todolist.entity.id.UserTeamId;
+import com.todolist.mapper.UserAndTeamMapper;
 import com.todolist.service.UserAndTeamService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,20 +14,25 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserAndTeamServiceImplementation implements UserAndTeamService {
 
     UserAndTeamDAO userAndTeamDAO;
+    UserAndTeamMapper userAndTeamMapper;
 
-    public UserAndTeamServiceImplementation(UserAndTeamDAO userAndTeamDAO) {
+    public UserAndTeamServiceImplementation(UserAndTeamDAO userAndTeamDAO, UserAndTeamMapper userAndTeamMapper) {
         this.userAndTeamDAO = userAndTeamDAO;
+        this.userAndTeamMapper = userAndTeamMapper;
     }
 
     @Override
     @Transactional
-    public UserAndTeam createUserAndTeam(UserAndTeam userAndTeam) {
-        return userAndTeamDAO.createUserAndTeam(userAndTeam);
+    public UserAndTeamResponse createUserAndTeam(UserAndTeamRequest userAndTeamRequest) {
+        UserAndTeam userAndTeam = userAndTeamMapper.toEntity(userAndTeamRequest);
+        userAndTeam =  userAndTeamDAO.createUserAndTeam(userAndTeam);
+        return userAndTeamMapper.toDTO(userAndTeam);
     }
 
     @Override
-    public UserAndTeam findUserAndTeam(UserTeamId id) {
-        return userAndTeamDAO.findUserAndTeam(id);
+    public UserAndTeamResponse findUserAndTeam(UserTeamId id) {
+        UserAndTeam userAndTeam = userAndTeamDAO.findUserAndTeam(id);
+        return userAndTeamMapper.toDTO(userAndTeam);
     }
 
     @Override
@@ -35,7 +43,9 @@ public class UserAndTeamServiceImplementation implements UserAndTeamService {
 
     @Override
     @Transactional
-    public UserAndTeam updateUserAndTeam(UserAndTeam userAndTeam) {
-        return userAndTeamDAO.updateUserAndTeam(userAndTeam);
+    public UserAndTeamResponse updateUserAndTeam(UserAndTeamRequest userAndTeamRequest) {
+        UserAndTeam userAndTeam = userAndTeamMapper.toEntity(userAndTeamRequest);
+        userAndTeam = userAndTeamDAO.updateUserAndTeam(userAndTeam);
+        return userAndTeamMapper.toDTO(userAndTeam);
     }
 }
