@@ -1,8 +1,6 @@
 package com.todolist.dao;
 
 import com.todolist.entity.Message;
-import com.todolist.entity.Team;
-import com.todolist.entity.User;
 
 import java.util.List;
 
@@ -11,4 +9,8 @@ public interface MessageDAO {
     public Message findMessageById(Integer id);
     public Message updateMessage(Message message);
     public void deleteMessage(Integer id);
+    public List<Message> getMessagesByTeamId(Integer teamId);
+    public List<Message> getMessagesByUserId(Integer userId);
+    public List<Message> getMessageByUserIdAndTeamId(Integer userId, Integer teamId);
+
 }

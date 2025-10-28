@@ -15,4 +15,5 @@ public interface TaskDAO {
     public void deleteTask(Integer id);
     public List<Task> findTasksByUserId(Integer userId);
     public List<Task> findTasksByTeamIdAndUserId(Integer teamId, Integer userId);
+    public List<Task> findIndividualTasksByUserId(Integer userId);
 }

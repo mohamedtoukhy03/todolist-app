@@ -32,16 +32,17 @@ public class TaskController {
         return taskService.findTasksByUserId(userId);
     }
 
+    @GetMapping("/{userId}")
+    public List<TaskResponse> getIndividualTasksByUserId(@PathVariable Integer userId) {
+        return taskService.findIndividualTasksByUserId(userId);
+    }
     @PostMapping
     public TaskResponse createTask(@RequestBody TaskRequest taskRequest) {
         return taskService.createTask(taskRequest);
     }
 
-
     @DeleteMapping("/{id}")
     public void deleteTaskById(@PathVariable Integer id) {
         taskService.deleteTask(id);
     }
-
-
 }

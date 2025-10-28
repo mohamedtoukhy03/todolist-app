@@ -18,4 +18,5 @@ public interface TaskService {
     public void deleteTask(Integer id);
     public List<TaskResponse> findTasksByUserId(Integer userId);
     public List<TaskResponse> findTasksByTeamIdAndUserId(Integer teamId, Integer userId);
+    public List<TaskResponse> findIndividualTasksByUserId(Integer userId);
 }

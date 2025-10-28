@@ -79,4 +79,15 @@ public class TaskDAOImplementation implements TaskDAO {
             throw new EntityNotFoundException("No tasks found for team " + teamId);
         return tasks;
     }
+
+    @Override
+    public List<Task> findIndividualTasksByUserId(Integer userId) {
+        List<Task> tasks = em.createQuery(
+                "SELECT t FROM Task t WHERE t.user.userId = :userId", Task.class)
+                .setParameter("userId", userId)
+                .getResultList();
+        if (tasks.isEmpty())
+            throw new EntityNotFoundException("No tasks found for user " + userId);
+        return tasks;
+    }
 }

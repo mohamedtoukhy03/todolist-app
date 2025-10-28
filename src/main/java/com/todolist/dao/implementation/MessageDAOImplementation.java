@@ -1,6 +1,7 @@
 package com.todolist.dao.implementation;
 
 import com.todolist.dao.MessageDAO;
+import com.todolist.dto.response.MessageResponse;
 import com.todolist.entity.Message;
 import com.todolist.entity.Team;
 import com.todolist.entity.User;
@@ -8,6 +9,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class MessageDAOImplementation implements MessageDAO {
@@ -46,5 +49,40 @@ public class MessageDAOImplementation implements MessageDAO {
         Message message = findOrThrow(Message.class, id,
                 "Cannot delete non-existing message with id: " + id);
         em.remove(message);
+    }
+
+    @Override
+    public List<Message> getMessagesByTeamId(Integer teamId) {
+        List<Message> messages = em.createQuery(
+                "SELECT m FROM Message m WHERE m.userAndTeam.id.teamId = :teamId", Message.class)
+                .setParameter("teamId", teamId)
+                .getResultList();
+        if (messages.isEmpty())
+            throw new EntityNotFoundException("No messages found with teamId: " + teamId);
+        return messages;
+    }
+
+    @Override
+    public List<Message> getMessagesByUserId(Integer userId) {
+        List<Message> messages = em.createQuery(
+                        "SELECT m FROM Message m WHERE m.userAndTeam.id.userId = :userId", Message.class)
+                .setParameter("userId", userId)
+                .getResultList();
+        if (messages.isEmpty())
+            throw new EntityNotFoundException("No messages found with userId: " + userId);
+        return messages;
+    }
+
+    @Override
+    public List<Message> getMessageByUserIdAndTeamId(Integer userId, Integer teamId) {
+        List<Message> messages = em.createQuery(
+                        "SELECT m FROM Message m WHERE m.userAndTeam.id.userId = :userId and m.userAndTeam.id.teamId = :teamId", Message.class)
+                .setParameter("userId", userId)
+                .setParameter("teamId", teamId)
+                .getResultList();
+
+        if (messages.isEmpty())
+            throw new EntityNotFoundException("No messages found with userId: " + userId);
+        return messages;
     }
 }

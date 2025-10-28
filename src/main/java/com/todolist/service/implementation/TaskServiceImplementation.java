@@ -82,4 +82,12 @@ public class TaskServiceImplementation implements TaskService {
         return taskResponses;
     }
 
+    @Override
+    public List<TaskResponse> findIndividualTasksByUserId(Integer userId) {
+        List<Task> tasks = taskDAO.findIndividualTasksByUserId(userId);
+        List<TaskResponse> taskResponses = new ArrayList<>();
+        tasks.forEach(task -> taskResponses.add(taskMapper.toDTO(task)));
+        return taskResponses;
+    }
+
 }

@@ -11,6 +11,9 @@ import com.todolist.service.MessageService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class MessageServiceImplementation implements MessageService {
 
@@ -44,9 +47,35 @@ public class MessageServiceImplementation implements MessageService {
         return messageMapper.toDTO(message);
     }
 
+
+
     @Override
     @Transactional
     public void deleteMessage(Integer id) {
         messageDAO.deleteMessage(id);
+    }
+
+    @Override
+    public List<MessageResponse> findMessagesByTeamId(Integer teamId) {
+        List<Message> messages = messageDAO.getMessagesByTeamId(teamId);
+        List<MessageResponse> messageResponses = new ArrayList<>();
+        messages.forEach((message -> messageResponses.add(messageMapper.toDTO(message))));
+        return  messageResponses;
+    }
+
+    @Override
+    public List<MessageResponse> findMessageByUserId(Integer userId) {
+        List<Message> messages = messageDAO.getMessagesByUserId(userId);
+        List<MessageResponse> messageResponses = new ArrayList<>();
+        messages.forEach((message -> messageResponses.add(messageMapper.toDTO(message))));
+        return  messageResponses;
+    }
+
+    @Override
+    public List<MessageResponse> findMessageByUserIdAndTeamId(Integer userId, Integer teamId) {
+        List<Message> messages = messageDAO.getMessageByUserIdAndTeamId(userId, teamId);
+        List<MessageResponse> messageResponses = new ArrayList<>();
+        messages.forEach((message -> messageResponses.add(messageMapper.toDTO(message))));
+        return  messageResponses;
     }
 }
