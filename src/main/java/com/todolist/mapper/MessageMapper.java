@@ -4,7 +4,6 @@ import com.todolist.dao.UserAndTeamDAO;
 import com.todolist.dto.request.MessageRequest;
 import com.todolist.dto.response.MessageResponse;
 import com.todolist.entity.Message;
-import com.todolist.service.UserAndTeamService;
 import org.springframework.stereotype.Component;
 
 

@@ -2,12 +2,8 @@ package com.todolist.dao.implementation;
 
 import com.todolist.dao.TaskDAO;
 import com.todolist.entity.Task;
-import com.todolist.entity.Team;
-import com.todolist.entity.User;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Repository;
-
-import java.lang.reflect.Type;
 import java.util.List;
 
 @Repository
@@ -74,6 +70,8 @@ public class TaskDAOImplementation implements TaskDAO {
     public List<Task> findTasksByTeamIdAndUserId(Integer teamId, Integer userId) {
         List<Task> tasks = em.createQuery(
                 "SELECT t FROM Task t JOIN t.userAndTeam ut WHERE ut.id.userId = :userId AND ut.id.teamId = :teamId", Task.class)
+                .setParameter("userId", userId)
+                .setParameter("teamId", teamId)
                 .getResultList();
         if (tasks.isEmpty())
             throw new EntityNotFoundException("No tasks found for team " + teamId);

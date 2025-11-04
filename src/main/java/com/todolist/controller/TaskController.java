@@ -8,34 +8,37 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/task")
+@RequestMapping("/tasks")
 public class TaskController {
-    TaskService taskService;
 
+    private final TaskService taskService;
 
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
 
-    @GetMapping("/{userId}/{teamId}")
-    public List<TaskResponse> findTasksByUserIdAndTeamId(@PathVariable Integer userId, @PathVariable Integer teamId) {
-        return taskService.findTasksByTeamIdAndUserId(userId, teamId);
-    }
-
-    @GetMapping("/{teamId}")
-    public List<TaskResponse> getTasks(@PathVariable Integer teamId) {
+    @GetMapping("/team/{teamId}")
+    public List<TaskResponse> getTasksByTeamId(@PathVariable Integer teamId) {
         return taskService.findTasksByTeamId(teamId);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/user/{userId}")
     public List<TaskResponse> getTasksByUserId(@PathVariable Integer userId) {
         return taskService.findTasksByUserId(userId);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/user/{userId}/individual")
     public List<TaskResponse> getIndividualTasksByUserId(@PathVariable Integer userId) {
         return taskService.findIndividualTasksByUserId(userId);
     }
+
+    @GetMapping("/user/{userId}/team/{teamId}")
+    public List<TaskResponse> getTasksByUserAndTeam(
+            @PathVariable Integer userId,
+            @PathVariable Integer teamId) {
+        return taskService.findTasksByTeamIdAndUserId(teamId, userId);
+    }
+
     @PostMapping
     public TaskResponse createTask(@RequestBody TaskRequest taskRequest) {
         return taskService.createTask(taskRequest);

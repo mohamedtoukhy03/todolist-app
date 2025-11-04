@@ -5,7 +5,6 @@ import com.todolist.dto.request.TaskRequest;
 import com.todolist.dto.response.TaskResponse;
 import com.todolist.entity.Task;
 import com.todolist.entity.UserAndTeam;
-import com.todolist.service.UserAndTeamService;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;

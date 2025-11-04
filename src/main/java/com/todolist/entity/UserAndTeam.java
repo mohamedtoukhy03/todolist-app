@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "user_team")
+@Table(name = "user_and_team")
 public class UserAndTeam {
     @EmbeddedId
-    private UserTeamId id;
+    private UserTeamId id = new UserTeamId();
 
     @ManyToOne
     @MapsId("teamId")

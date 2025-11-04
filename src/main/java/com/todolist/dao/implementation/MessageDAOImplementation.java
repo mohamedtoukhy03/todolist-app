@@ -1,10 +1,7 @@
 package com.todolist.dao.implementation;
 
 import com.todolist.dao.MessageDAO;
-import com.todolist.dto.response.MessageResponse;
 import com.todolist.entity.Message;
-import com.todolist.entity.Team;
-import com.todolist.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;

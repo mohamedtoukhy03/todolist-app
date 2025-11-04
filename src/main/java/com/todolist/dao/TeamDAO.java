@@ -14,4 +14,5 @@ public interface TeamDAO {
     public void deleteTeamById(Integer id);
     public List<Team> findParentOfTeam(Integer id);
     public List<Team> findChildOfTeam(Integer id);
+    public List<Team> findTeamsByUserId(Integer userId);
 }

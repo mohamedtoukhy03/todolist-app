@@ -1,37 +1,40 @@
 package com.todolist.controller;
 
-
 import com.todolist.dto.request.TeamRequest;
 import com.todolist.dto.response.TeamResponse;
-import com.todolist.entity.Team;
-import com.todolist.mapper.TeamMapper;
 import com.todolist.service.TeamService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.List;
 
 @RestController
-@RequestMapping("/team")
+@RequestMapping("/teams")
 public class TeamController {
-    TeamService teamService;
+
+    private final TeamService teamService;
 
     public TeamController(TeamService teamService) {
         this.teamService = teamService;
     }
 
     @GetMapping("/{id}")
-    public TeamResponse getTeam(@PathVariable Integer id) {
-       return teamService.findTeamById(id);
+    public TeamResponse getTeamById(@PathVariable Integer id) {
+        return teamService.findTeamById(id);
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<TeamResponse> getTeamsByUserId(@PathVariable Integer userId) {
+        return teamService.findTeamsByUserId(userId);
     }
 
     @PostMapping
-    public TeamResponse addTeam(@RequestBody TeamRequest teamRequest) {
-       return teamService.createTeam(teamRequest);
+    public TeamResponse createTeam(@RequestBody TeamRequest teamRequest) {
+        return teamService.createTeam(teamRequest);
     }
 
-    @PatchMapping("/{id}")
-    public TeamResponse updateTeam(@PathVariable Integer id, @RequestBody Map<String, Object> map) {
-        return teamService.applyTeam(id, map);
+    @PutMapping("/{id}")
+    public TeamResponse updateTeam(@PathVariable Integer id, @RequestBody TeamRequest teamRequest) {
+        return teamService.updateTeam(id, teamRequest);
     }
 
     @DeleteMapping("/{id}")

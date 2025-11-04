@@ -1,33 +1,26 @@
 package com.todolist.service.implementation;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todolist.dao.TeamDAO;
 import com.todolist.dto.request.TeamRequest;
 import com.todolist.dto.response.TeamResponse;
-import com.todolist.entity.Message;
-import com.todolist.entity.Task;
 import com.todolist.entity.Team;
-import com.todolist.entity.User;
 import com.todolist.mapper.TeamMapper;
 import com.todolist.service.TeamService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 @Service
 public class TeamServiceImplementation implements TeamService {
 
     TeamDAO teamDAO;
-    ObjectMapper objectMapper;
     TeamMapper teamMapper;
 
-    public TeamServiceImplementation(TeamDAO teamDAO, ObjectMapper objectMapper,  TeamMapper teamMapper) {
+    public TeamServiceImplementation(TeamDAO teamDAO, TeamMapper teamMapper) {
         this.teamDAO = teamDAO;
-        this.objectMapper = objectMapper;
         this.teamMapper = teamMapper;
     }
 
@@ -47,22 +40,11 @@ public class TeamServiceImplementation implements TeamService {
 
     @Override
     @Transactional
-    public TeamResponse updateTeam(TeamRequest teamRequest) {
-        Team team = teamMapper.toEntity(teamRequest);
-        team = teamDAO.updateTeam(team);
-        return teamMapper.toDTO(team);
-    }
-
-    @Override
-    public TeamResponse applyTeam(Integer id, Map<String, Object> map) {
-        Team team = teamDAO.findTeamById(id);
-        try {
-            String json = objectMapper.writeValueAsString(map);
-            objectMapper.readerForUpdating(team).readValue(json);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        team = teamDAO.updateTeam(team);
+    public TeamResponse updateTeam(Integer id, TeamRequest teamRequest) {
+        teamDAO.findTeamById(id);
+        Team tempTeam = teamMapper.toEntity(teamRequest);
+        tempTeam.setTeamId(id);
+        Team team = teamDAO.updateTeam(tempTeam);
         return teamMapper.toDTO(team);
     }
 
@@ -70,5 +52,13 @@ public class TeamServiceImplementation implements TeamService {
     @Transactional
     public void deleteTeamById(Integer id) {
         teamDAO.deleteTeamById(id);
+    }
+
+    @Override
+    public List<TeamResponse> findTeamsByUserId(Integer userId) {
+        List<Team> teams =  teamDAO.findTeamsByUserId(userId);
+        List<TeamResponse> teamResponses = new ArrayList<>();
+        teams.forEach(team -> teamResponses.add(teamMapper.toDTO(team)));
+        return teamResponses;
     }
 }

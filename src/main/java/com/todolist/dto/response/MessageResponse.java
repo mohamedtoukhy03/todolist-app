@@ -2,8 +2,6 @@ package com.todolist.dto.response;
 
 import com.todolist.entity.id.UserTeamId;
 
-import java.util.List;
-
 public class MessageResponse {
     private Integer messageId;
     private String message;

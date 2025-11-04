@@ -9,5 +9,5 @@ public interface UserAndTeamService {
     public UserAndTeamResponse createUserAndTeam(UserAndTeamRequest userAndTeamRequest);
     public UserAndTeamResponse findUserAndTeam(UserTeamId id);
     public void deleteUserAndTeam(UserTeamId id);
-    public UserAndTeamResponse updateUserAndTeam(UserAndTeamRequest userAndTeamRequest);
+    public UserAndTeamResponse updateUserAndTeam(Integer userId, Integer teamId, UserAndTeamRequest userAndTeamRequest);
 }

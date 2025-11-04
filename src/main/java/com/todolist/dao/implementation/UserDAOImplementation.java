@@ -58,4 +58,15 @@ public class UserDAOImplementation implements UserDAO {
         User user = findUserByNickName(nickName);
         em.remove(user);
     }
+
+    @Override
+    public List<User> findUsersByTeamId(Integer teamId) {
+        List<User> users = em.createQuery(
+                        "SELECT u FROM UserAndTeam ut JOIN ut.user u WHERE ut.id.teamId = :teamId", User.class)
+                .setParameter("teamId", teamId)
+                .getResultList();
+        if (users.isEmpty())
+            throw new EntityNotFoundException("No users found for team with id: " + teamId);
+        return users;
+    }
 }

@@ -61,6 +61,17 @@ public class TeamDAOImplementation implements TeamDAO {
     }
 
     @Override
+    public List<Team> findTeamsByUserId(Integer userId) {
+        List<Team> teams = em.createQuery(
+                "SELECT t FROM UserAndTeam ut JOIN ut.team t WHERE ut.id.userId = :userId", Team.class)
+                .setParameter("userId", userId)
+                .getResultList();
+        if (teams.isEmpty())
+            throw new EntityNotFoundException("No teams found for user with id: " + userId);
+        return teams;
+    }
+
+    @Override
     public Team updateTeam(Team team) {
         findOrThrow(Team.class, team.getTeamId(),
                 "Cannot update non-existing team with id: " + team.getTeamId());

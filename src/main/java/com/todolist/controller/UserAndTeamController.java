@@ -7,10 +7,10 @@ import com.todolist.service.UserAndTeamService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/userAndTeam")
+@RequestMapping("/user-teams")
 public class UserAndTeamController {
 
-    private UserAndTeamService userAndTeamService;
+    private final UserAndTeamService userAndTeamService;
 
     public UserAndTeamController(UserAndTeamService userAndTeamService) {
         this.userAndTeamService = userAndTeamService;
@@ -18,18 +18,27 @@ public class UserAndTeamController {
 
     @PostMapping
     public UserAndTeamResponse createUserAndTeam(@RequestBody UserAndTeamRequest userAndTeamRequest) {
-       return userAndTeamService.createUserAndTeam(userAndTeamRequest);
+        return userAndTeamService.createUserAndTeam(userAndTeamRequest);
     }
 
-    @GetMapping("/{teamId}/{userId}")
-    public UserAndTeamResponse getUserAndTeamById(@PathVariable Integer teamId, @PathVariable Integer userId) {
-        UserTeamId userTeamId = new UserTeamId(teamId, userId);
+    @GetMapping("/user/{userId}/team/{teamId}")
+    public UserAndTeamResponse getUserAndTeamById(@PathVariable Integer userId, @PathVariable Integer teamId) {
+        UserTeamId userTeamId = new UserTeamId(userId, teamId);
         return userAndTeamService.findUserAndTeam(userTeamId);
     }
 
-    @DeleteMapping("/{teamId}/{userId}")
-    public void deleteUserAndTeam(@PathVariable Integer teamId, @PathVariable Integer userId) {
-        UserTeamId userTeamId = new UserTeamId(teamId, userId);
+
+    @PutMapping("/user/{userId}/team/{teamId}")
+    public UserAndTeamResponse updateUserAndTeam(
+            @PathVariable Integer userId,
+            @PathVariable Integer teamId,
+            @RequestBody UserAndTeamRequest userAndTeamRequest) {
+        return userAndTeamService.updateUserAndTeam(userId, teamId, userAndTeamRequest);
+    }
+
+    @DeleteMapping("/user/{userId}/team/{teamId}")
+    public void deleteUserAndTeam(@PathVariable Integer userId, @PathVariable Integer teamId) {
+        UserTeamId userTeamId = new UserTeamId(userId, teamId);
         userAndTeamService.deleteUserAndTeam(userTeamId);
     }
 }

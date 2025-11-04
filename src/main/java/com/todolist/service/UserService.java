@@ -12,9 +12,9 @@ public interface UserService {
     public UserResponse createUser(UserRequest userRequest);
     public UserResponse findUserByNickName(String nickName);
     public UserResponse findUserById(Integer id);
-    public UserResponse updateUser(UserRequest userRequest);
-    public UserResponse applyUser(Map<String, Object> map, Integer id);
+    public UserResponse updateUser(Integer userId, UserRequest userRequest);
     public void deleteUserById(Integer id);
     public void deleteUserByNickName(String nickName);
+    public List<UserResponse> findUsersByTeamId(Integer teamId);
 
 }

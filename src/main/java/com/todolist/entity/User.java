@@ -20,7 +20,6 @@ public class User {
     private String nickName;
 
 
-//
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private UserAuth userAuth;
 

@@ -13,4 +13,5 @@ public interface UserDAO {
     public User updateUser(User user);
     public void deleteUserById(Integer id);
     public void deleteUserByNickName(String nickName);
+    public List<User> findUsersByTeamId(Integer teamId);
 }

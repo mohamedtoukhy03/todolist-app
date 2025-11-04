@@ -21,8 +21,6 @@ public class UserAndTeamDAOImplementation implements UserAndTeamDAO {
 
     @Override
     public UserAndTeam createUserAndTeam(UserAndTeam userAndTeam) {
-        if (userAndTeam.getId() != null)
-            throw new RuntimeException("id must be null");
         return (em.merge(userAndTeam));
     }
 
@@ -38,8 +36,9 @@ public class UserAndTeamDAOImplementation implements UserAndTeamDAO {
     }
 
     @Override
-    public UserAndTeam updateUserAndTeam(UserAndTeam userAndTeam) {
-        findOrThrow(UserAndTeam.class, userAndTeam.getId(), "The user and team could not be found");
+    public UserAndTeam updateUserAndTeam(Integer userId, Integer teamId, UserAndTeam userAndTeam) {
+        UserTeamId userTeamId = new UserTeamId(userId, teamId);
+        findOrThrow(UserAndTeam.class, userTeamId, "The user and team could not be found");
         return em.merge(userAndTeam);
     }
 }
