@@ -3,6 +3,7 @@ package com.todolist.controller;
 import com.todolist.dto.request.UserRequest;
 import com.todolist.dto.response.UserResponse;
 import com.todolist.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class UserController {
     }
 
     @PostMapping
-    public UserResponse createUser(@RequestBody UserRequest userRequest) {
+    public UserResponse createUser(@Valid @RequestBody UserRequest userRequest) {
         return userService.createUser(userRequest);
     }
 

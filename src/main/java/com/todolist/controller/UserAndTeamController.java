@@ -4,6 +4,7 @@ import com.todolist.dto.request.UserAndTeamRequest;
 import com.todolist.dto.response.UserAndTeamResponse;
 import com.todolist.entity.id.UserTeamId;
 import com.todolist.service.UserAndTeamService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,7 +18,7 @@ public class UserAndTeamController {
     }
 
     @PostMapping
-    public UserAndTeamResponse createUserAndTeam(@RequestBody UserAndTeamRequest userAndTeamRequest) {
+    public UserAndTeamResponse createUserAndTeam(@Valid @RequestBody UserAndTeamRequest userAndTeamRequest) {
         return userAndTeamService.createUserAndTeam(userAndTeamRequest);
     }
 
@@ -32,7 +33,7 @@ public class UserAndTeamController {
     public UserAndTeamResponse updateUserAndTeam(
             @PathVariable Integer userId,
             @PathVariable Integer teamId,
-            @RequestBody UserAndTeamRequest userAndTeamRequest) {
+            @Valid @RequestBody UserAndTeamRequest userAndTeamRequest) {
         return userAndTeamService.updateUserAndTeam(userId, teamId, userAndTeamRequest);
     }
 

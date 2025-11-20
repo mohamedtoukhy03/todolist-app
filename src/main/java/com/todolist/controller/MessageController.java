@@ -3,6 +3,7 @@ package com.todolist.controller;
 import com.todolist.dto.request.MessageRequest;
 import com.todolist.dto.response.MessageResponse;
 import com.todolist.service.MessageService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,7 +41,7 @@ public class MessageController {
     }
 
     @PostMapping
-    public MessageResponse addMessage(@RequestBody MessageRequest messageRequest) {
+    public MessageResponse addMessage(@Valid @RequestBody MessageRequest messageRequest) {
         return messageService.createMessage(messageRequest);
     }
 

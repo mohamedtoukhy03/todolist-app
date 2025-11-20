@@ -2,6 +2,7 @@ package com.todolist.entity;
 
 import com.todolist.entity.id.UserTeamId;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;

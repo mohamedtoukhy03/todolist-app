@@ -3,6 +3,7 @@ package com.todolist.controller;
 import com.todolist.dto.request.TeamRequest;
 import com.todolist.dto.response.TeamResponse;
 import com.todolist.service.TeamService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,12 +29,12 @@ public class TeamController {
     }
 
     @PostMapping
-    public TeamResponse createTeam(@RequestBody TeamRequest teamRequest) {
+    public TeamResponse createTeam(@Valid @RequestBody TeamRequest teamRequest) {
         return teamService.createTeam(teamRequest);
     }
 
     @PutMapping("/{id}")
-    public TeamResponse updateTeam(@PathVariable Integer id, @RequestBody TeamRequest teamRequest) {
+    public TeamResponse updateTeam(@PathVariable Integer id,@Valid @RequestBody TeamRequest teamRequest) {
         return teamService.updateTeam(id, teamRequest);
     }
 

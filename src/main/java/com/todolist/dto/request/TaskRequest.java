@@ -1,12 +1,17 @@
 package com.todolist.dto.request;
 
 import com.todolist.entity.id.UserTeamId;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 
 public class TaskRequest {
+    @NotBlank(message = "task name is required.")
     private String taskName;
+
+    @NotBlank(message = "task note is required.")
     private String taskNote;
+
     private List<UserTeamId> userTeamIds;
 
     public List<UserTeamId> getUserTeamIds() {

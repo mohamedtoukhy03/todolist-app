@@ -1,7 +1,11 @@
 package com.todolist.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class TeamRequest {
+    @NotBlank(message = "team name is required.")
     private String teamName;
+
     private String teamDescription;
 
     public String getTeamName() {
