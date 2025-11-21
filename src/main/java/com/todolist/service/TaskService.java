@@ -11,7 +11,8 @@ public interface TaskService {
     public TaskResponse createTask(IndividualTaskRequest taskRequest);
     public List<TaskResponse> findTasksByTeamId(Integer teamId);
     public TaskResponse findTaskById(Integer id);
-    public TaskResponse updateTask(TeamTaskRequest taskRequest);
+    public TaskResponse updateTask(Integer id, TeamTaskRequest taskRequest);
+    public TaskResponse updateTask(Integer id, IndividualTaskRequest taskRequest);
     public void deleteTask(Integer id);
     public List<TaskResponse> findTasksByUserId(Integer userId);
     public List<TaskResponse> findTasksByTeamIdAndUserId(Integer teamId, Integer userId);

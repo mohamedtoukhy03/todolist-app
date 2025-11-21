@@ -53,7 +53,6 @@ public class TeamServiceImplementation implements TeamService {
     @Override
     @Transactional
     public TeamResponse updateTeam(Integer id, TeamRequest teamRequest) {
-        teamDAO.findTeamById(id);
         Team tempTeam = teamMapper.toEntity(teamRequest);
         tempTeam.setTeamId(id);
         Team team = teamDAO.updateTeam(tempTeam);

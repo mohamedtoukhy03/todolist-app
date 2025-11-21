@@ -45,7 +45,8 @@ public class UserAndTeamServiceImplementation implements UserAndTeamService {
     @Transactional
     public UserAndTeamResponse updateUserAndTeam(Integer userId, Integer teamId, UserAndTeamRequest userAndTeamRequest) {
         UserAndTeam userAndTeam = userAndTeamMapper.toEntity(userAndTeamRequest);
-        userAndTeam = userAndTeamDAO.updateUserAndTeam(userId, teamId, userAndTeam);
+        userAndTeam.setId(new UserTeamId(userId, teamId));
+        userAndTeam = userAndTeamDAO.updateUserAndTeam(userAndTeam);
         return userAndTeamMapper.toDTO(userAndTeam);
     }
 }

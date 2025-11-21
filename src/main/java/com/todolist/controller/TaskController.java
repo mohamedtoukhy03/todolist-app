@@ -51,6 +51,16 @@ public class TaskController {
         return taskService.createTask(taskRequest);
     }
 
+    @PutMapping("/user/{id}")
+    TaskResponse updateUserTask(@PathVariable Integer id, @Valid @RequestBody IndividualTaskRequest taskRequest) {
+        return taskService.updateTask(id, taskRequest);
+    }
+
+    @PutMapping("/team/{id}")
+    TaskResponse updateUserTask(@PathVariable Integer id, @Valid @RequestBody TeamTaskRequest taskRequest) {
+        return taskService.updateTask(id, taskRequest);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteTaskById(@PathVariable Integer id) {
         taskService.deleteTask(id);

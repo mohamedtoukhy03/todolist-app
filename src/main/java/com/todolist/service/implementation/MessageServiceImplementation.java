@@ -41,13 +41,12 @@ public class MessageServiceImplementation implements MessageService {
 
     @Override
     @Transactional
-    public MessageResponse updateMessage(MessageRequest messageRequest) {
+    public MessageResponse updateMessage(Integer id, MessageRequest messageRequest) {
         Message message = messageMapper.toMessage(messageRequest);
-        message = messageDAO.updateMessage(message);
+        message.setMessageId(id);
+        message =  messageDAO.updateMessage(message);
         return messageMapper.toDTO(message);
     }
-
-
 
     @Override
     @Transactional

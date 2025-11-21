@@ -9,7 +9,7 @@ import java.util.List;
 public interface MessageService {
     public MessageResponse createMessage(MessageRequest messageRequest);
     public MessageResponse findMessageById(Integer id);
-    public MessageResponse updateMessage(MessageRequest messageRequest);
+    public MessageResponse updateMessage(Integer id, MessageRequest messageRequest);
     public void deleteMessage(Integer id);
     public List<MessageResponse> findMessagesByTeamId(Integer teamId);
     public List<MessageResponse> findMessageByUserId(Integer userId);

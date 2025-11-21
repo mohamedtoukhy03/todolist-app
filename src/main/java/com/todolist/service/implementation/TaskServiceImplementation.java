@@ -55,8 +55,18 @@ public class TaskServiceImplementation implements TaskService {
 
     @Override
     @Transactional
-    public TaskResponse updateTask(TeamTaskRequest taskRequest) {
+    public TaskResponse updateTask(Integer id, TeamTaskRequest taskRequest) {
         Task task = taskMapper.toTask(taskRequest);
+        task.setTaskId(id);
+        task = taskDAO.updateTask(task);
+        return taskMapper.toDTO(task);
+    }
+
+    @Override
+    @Transactional
+    public TaskResponse updateTask(Integer id, IndividualTaskRequest taskRequest) {
+        Task task = taskMapper.toTask(taskRequest);
+        task.setTaskId(id);
         task = taskDAO.updateTask(task);
         return taskMapper.toDTO(task);
     }

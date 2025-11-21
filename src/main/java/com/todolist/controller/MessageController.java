@@ -45,6 +45,11 @@ public class MessageController {
         return messageService.createMessage(messageRequest);
     }
 
+    @PutMapping("/{id}")
+    public MessageResponse updateMessage(@PathVariable Integer id, @Valid @RequestBody MessageRequest messageRequest) {
+        return messageService.updateMessage(id, messageRequest);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteMessageById(@PathVariable Integer id) {
         messageService.deleteMessage(id);
