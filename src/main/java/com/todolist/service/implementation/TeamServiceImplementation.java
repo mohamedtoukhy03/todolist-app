@@ -1,9 +1,12 @@
 package com.todolist.service.implementation;
 
 import com.todolist.dao.TeamDAO;
+import com.todolist.dao.UserDAO;
 import com.todolist.dto.request.TeamRequest;
 import com.todolist.dto.response.TeamResponse;
 import com.todolist.entity.Team;
+import com.todolist.entity.User;
+import com.todolist.entity.UserAndTeam;
 import com.todolist.mapper.TeamMapper;
 import com.todolist.service.TeamService;
 import org.springframework.stereotype.Service;
@@ -17,11 +20,13 @@ import java.util.List;
 public class TeamServiceImplementation implements TeamService {
 
     TeamDAO teamDAO;
+    UserDAO userDAO;
     TeamMapper teamMapper;
 
-    public TeamServiceImplementation(TeamDAO teamDAO, TeamMapper teamMapper) {
+    public TeamServiceImplementation(TeamDAO teamDAO, TeamMapper teamMapper, UserDAO userDAO) {
         this.teamDAO = teamDAO;
         this.teamMapper = teamMapper;
+        this.userDAO = userDAO;
     }
 
     @Override
@@ -29,6 +34,13 @@ public class TeamServiceImplementation implements TeamService {
     public TeamResponse createTeam(TeamRequest teamRequest) {
         Team team = teamMapper.toEntity(teamRequest);
         team = teamDAO.createTeam(team);
+        List<User> users = new ArrayList<>();
+        List<UserAndTeam> userAndTeam = new ArrayList<>();
+        teamRequest.getUserIds().forEach(userId -> users.add(userDAO.findUserById(userId)));
+        for (User user : users) {
+            userAndTeam.add(new UserAndTeam(team, user));
+        }
+        team.setUserAndTeam(userAndTeam);
         return teamMapper.toDTO(team);
     }
 

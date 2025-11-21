@@ -2,6 +2,9 @@ package com.todolist.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "team")
 public class Team {
@@ -16,10 +19,31 @@ public class Team {
     @Column(name = "description")
     private String teamDescription;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REFRESH}, mappedBy = "team")
+    private List<UserAndTeam> userAndTeam;
+
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
      CascadeType.REFRESH})
     @JoinColumn(name = "parent_id")
     private Team parent;
+
+
+    public void addUserAndTeam(UserAndTeam userTeam) {
+        if (userAndTeam == null) {
+            userAndTeam = new ArrayList<>();
+        }
+        userAndTeam.add(userTeam);
+        userTeam.setTeam(this);
+    }
+
+    public List<UserAndTeam> getUserAndTeam() {
+        return userAndTeam;
+    }
+
+    public void setUserAndTeam(List<UserAndTeam> userAndTeam) {
+        this.userAndTeam = userAndTeam;
+    }
 
     public Team getParent() {
         return parent;
@@ -28,14 +52,6 @@ public class Team {
     public void setParent(Team parent) {
         this.parent = parent;
     }
-
-    public Team() {}
-
-    public Team(String teamName, String teamDescription) {
-        this.teamName = teamName;
-        this.teamDescription = teamDescription;
-    }
-
 
     public String getTeamName() {
         return teamName;

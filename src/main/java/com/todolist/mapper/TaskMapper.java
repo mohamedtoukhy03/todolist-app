@@ -1,22 +1,24 @@
 package com.todolist.mapper;
 
 import com.todolist.dao.UserAndTeamDAO;
-import com.todolist.dto.request.TaskRequest;
+import com.todolist.dao.UserDAO;
+import com.todolist.dto.request.IndividualTaskRequest;
+import com.todolist.dto.request.TeamTaskRequest;
 import com.todolist.dto.response.TaskResponse;
 import com.todolist.entity.Task;
-import com.todolist.entity.UserAndTeam;
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Collectors;
 
 
 @Component
 public class TaskMapper {
 
     private UserAndTeamDAO userAndTeamDAO;
+    private UserDAO userDAO;
 
-    public TaskMapper(UserAndTeamDAO userAndTeamDAO) {
+    public TaskMapper(UserAndTeamDAO userAndTeamDAO, UserDAO userDAO) {
         this.userAndTeamDAO = userAndTeamDAO;
+        this.userDAO = userDAO;
     }
 
     public TaskResponse toDTO(Task task){
@@ -24,18 +26,22 @@ public class TaskMapper {
         taskResponse.setTaskName(task.getTaskName());
         taskResponse.setTaskId(task.getTaskId());
         taskResponse.setTaskNote(task.getNote());
-        taskResponse.setUserTeamIds(task.getUserAndTeam().stream()
-                .map(UserAndTeam::getId)
-                .collect(Collectors.toList())
-        );
         return taskResponse;
     }
 
-    public Task toTask(TaskRequest taskResponse){
+    public Task toTask(TeamTaskRequest taskResponse){
         Task task = new Task();
         task.setTaskName(taskResponse.getTaskName());
         task.setNote(taskResponse.getTaskNote());
         taskResponse.getUserTeamIds().forEach(id -> task.addUserAndTeam(userAndTeamDAO.findUserAndTeam(id)));
+        return task;
+    }
+
+    public Task toTask(IndividualTaskRequest taskResponse){
+        Task task = new Task();
+        task.setTaskName(taskResponse.getTaskName());
+        task.setNote(taskResponse.getTaskNote());
+        task.setUser(userDAO.findUserById(taskResponse.getUserId()));
         return task;
     }
 }

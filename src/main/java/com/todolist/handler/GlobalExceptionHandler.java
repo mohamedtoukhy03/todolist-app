@@ -15,14 +15,14 @@ import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler
     public ResponseEntity<Map<String, String>> handleEntityNotFoundException(MethodArgumentNotValidException e) {
         Map<String, String> errors = new HashMap<>();
         e.getBindingResult().getAllErrors().forEach((error) -> errors.put(error.getDefaultMessage(), error.getDefaultMessage()));
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
+    @ExceptionHandler
     public ResponseEntity<EntityError> handleException(EntityNotFoundException ex) {
         EntityError error = new EntityError(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);

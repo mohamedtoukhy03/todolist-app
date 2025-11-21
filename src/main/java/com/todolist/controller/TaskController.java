@@ -1,6 +1,7 @@
 package com.todolist.controller;
 
-import com.todolist.dto.request.TaskRequest;
+import com.todolist.dto.request.IndividualTaskRequest;
+import com.todolist.dto.request.TeamTaskRequest;
 import com.todolist.dto.response.TaskResponse;
 import com.todolist.service.TaskService;
 import jakarta.validation.Valid;
@@ -40,8 +41,13 @@ public class TaskController {
         return taskService.findTasksByTeamIdAndUserId(teamId, userId);
     }
 
-    @PostMapping
-    public TaskResponse createTask(@Valid @RequestBody TaskRequest taskRequest) {
+    @PostMapping("/team")
+    public TaskResponse createTeamTask(@Valid @RequestBody TeamTaskRequest taskRequest) {
+        return taskService.createTask(taskRequest);
+    }
+
+    @PostMapping("/user")
+    TaskResponse createUserTask(@Valid @RequestBody IndividualTaskRequest taskRequest) {
         return taskService.createTask(taskRequest);
     }
 

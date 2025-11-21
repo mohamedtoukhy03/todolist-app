@@ -43,6 +43,13 @@ public class UserAndTeam {
         task.getUserAndTeam().add(this);
     }
 
+    public UserAndTeam() {}
+
+    public UserAndTeam(Team team, User user) {
+        this.team = team;
+        this.user = user;
+    }
+
     public List<Task> getTasks() {
         return tasks;
     }
@@ -51,12 +58,7 @@ public class UserAndTeam {
         this.tasks = tasks;
     }
 
-    public UserAndTeam() {}
 
-    public UserAndTeam(Team team, User user) {
-        this.team = team;
-        this.user = user;
-    }
 
     public UserTeamId getId() {
         return id;

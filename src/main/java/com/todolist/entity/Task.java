@@ -45,19 +45,6 @@ public class Task {
         this.userAndTeam= userAndTeams;
     }
 
-    public Task() {}
-
-    public Task(String note, String taskName){
-        this.note = note;
-        this.taskName = taskName;
-    }
-
-    public Task(String note, String taskName, User user) {
-        this.note = note;
-        this.taskName = taskName;
-        this.user = user;
-    }
-
     public Integer getTaskId() {
         return taskId;
     }

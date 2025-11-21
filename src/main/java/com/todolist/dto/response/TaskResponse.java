@@ -8,15 +8,6 @@ public class TaskResponse {
     private Integer taskId;
     private String taskName;
     private String taskNote;
-    private List<UserTeamId> userTeamIds;
-
-    public List<UserTeamId> getUserTeamIds() {
-        return userTeamIds;
-    }
-
-    public void setUserTeamIds(List<UserTeamId> userTeamIds) {
-        this.userTeamIds = userTeamIds;
-    }
 
     public Integer getTaskId() {
         return taskId;

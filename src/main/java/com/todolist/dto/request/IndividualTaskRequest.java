@@ -1,25 +1,26 @@
 package com.todolist.dto.request;
 
-import com.todolist.entity.id.UserTeamId;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-import java.util.List;
 
-public class TaskRequest {
+public class IndividualTaskRequest {
     @NotBlank(message = "task name is required.")
     private String taskName;
 
     @NotBlank(message = "task note is required.")
     private String taskNote;
 
-    private List<UserTeamId> userTeamIds;
+    @NotNull(message = "task must be associated to at least one user")
+    private Integer userId;
 
-    public List<UserTeamId> getUserTeamIds() {
-        return userTeamIds;
+
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUserTeamIds(List<UserTeamId> userTeamIds) {
-        this.userTeamIds = userTeamIds;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getTaskName() {

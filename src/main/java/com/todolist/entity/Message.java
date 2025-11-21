@@ -22,17 +22,6 @@ public class Message {
     })
     private UserAndTeam userAndTeam;
 
-    public Message() {}
-
-    public Message(String text) {
-        this.text = text;
-    }
-
-    public Message(String text, UserAndTeam userAndTeam) {
-        this.text = text;
-        this.userAndTeam = userAndTeam;
-    }
-
     public String getText() {
         return text;
     }

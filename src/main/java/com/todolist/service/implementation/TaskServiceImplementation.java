@@ -1,17 +1,11 @@
 package com.todolist.service.implementation;
 
 import com.todolist.dao.TaskDAO;
-import com.todolist.dto.request.TaskRequest;
+import com.todolist.dto.request.IndividualTaskRequest;
+import com.todolist.dto.request.TeamTaskRequest;
 import com.todolist.dto.response.TaskResponse;
-import com.todolist.dto.response.TeamResponse;
-import com.todolist.dto.response.UserResponse;
 import com.todolist.entity.Task;
-import com.todolist.entity.Team;
-import com.todolist.entity.User;
-import com.todolist.entity.UserAuth;
 import com.todolist.mapper.TaskMapper;
-import com.todolist.mapper.TeamMapper;
-import com.todolist.mapper.UserMapper;
 import com.todolist.service.TaskService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +26,14 @@ public class TaskServiceImplementation implements TaskService {
 
     @Override
     @Transactional
-    public TaskResponse createTask(TaskRequest taskRequest) {
+    public TaskResponse createTask(TeamTaskRequest taskRequest) {
+        Task task = taskMapper.toTask(taskRequest);
+        task = taskDAO.createTask(task);
+        return taskMapper.toDTO(task);
+    }
+
+    @Override
+    public TaskResponse createTask(IndividualTaskRequest taskRequest) {
         Task task = taskMapper.toTask(taskRequest);
         task = taskDAO.createTask(task);
         return taskMapper.toDTO(task);
@@ -54,7 +55,7 @@ public class TaskServiceImplementation implements TaskService {
 
     @Override
     @Transactional
-    public TaskResponse updateTask(TaskRequest taskRequest) {
+    public TaskResponse updateTask(TeamTaskRequest taskRequest) {
         Task task = taskMapper.toTask(taskRequest);
         task = taskDAO.updateTask(task);
         return taskMapper.toDTO(task);

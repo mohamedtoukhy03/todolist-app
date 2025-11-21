@@ -19,21 +19,35 @@ public class User {
     @Column(name = "nick_name")
     private String nickName;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REFRESH}, mappedBy = "user")
+    private List<UserAndTeam> userAndTeam;
+
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private UserAuth userAuth;
-
-    public User() {}
-
-    public User(String userName, String nickName) {
-        this.userName = userName;
-        this.nickName = nickName;
-    }
 
     public void addUserAuth(UserAuth userAuth) {
         this.userAuth = userAuth;
         userAuth.setUser(this);
     }
+
+    public void addUserAndTeam(UserAndTeam userTeam) {
+        if (userAndTeam == null) {
+            userAndTeam = new ArrayList<>();
+        }
+        userAndTeam.add(userTeam);
+        userTeam.setUser(this);
+    }
+
+    public List<UserAndTeam> getUserAndTeam() {
+        return userAndTeam;
+    }
+
+    public void setUserAndTeam(List<UserAndTeam> userAndTeam) {
+        this.userAndTeam = userAndTeam;
+    }
+
 
 
     public UserAuth getUserAuth() {

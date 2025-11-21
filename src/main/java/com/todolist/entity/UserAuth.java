@@ -21,20 +21,6 @@ public class UserAuth {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public UserAuth() {}
-
-
-    public UserAuth(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
-
-    public UserAuth(String email, String password, User user) {
-        this.email = email;
-        this.password = password;
-        this.user = user;
-    }
-
     public Integer getUserId() {
         return userId;
     }
