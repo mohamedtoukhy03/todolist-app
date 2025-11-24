@@ -14,7 +14,7 @@ A full-featured Todo List application built with Spring Boot 3.5.6 and PostgreSQ
 ## 🛠️ Technologies
 
 - **Backend**: Spring Boot 3.5.6
-- **Language**: Java 24
+- **Language**: Java 21
 - **Database**: PostgreSQL
 - **ORM**: Spring Data JPA
 - **API Documentation**: SpringDoc OpenAPI (Swagger UI)
