@@ -47,17 +47,17 @@ public class TaskController {
     }
 
     @PostMapping("/user")
-    TaskResponse createUserTask(@Valid @RequestBody IndividualTaskRequest taskRequest) {
+    public TaskResponse createUserTask(@Valid @RequestBody IndividualTaskRequest taskRequest) {
         return taskService.createTask(taskRequest);
     }
 
     @PutMapping("/user/{id}")
-    TaskResponse updateUserTask(@PathVariable Integer id, @Valid @RequestBody IndividualTaskRequest taskRequest) {
+    public TaskResponse updateUserTask(@PathVariable Integer id, @Valid @RequestBody IndividualTaskRequest taskRequest) {
         return taskService.updateTask(id, taskRequest);
     }
 
     @PutMapping("/team/{id}")
-    TaskResponse updateUserTask(@PathVariable Integer id, @Valid @RequestBody TeamTaskRequest taskRequest) {
+    public TaskResponse updateTeamTask(@PathVariable Integer id, @Valid @RequestBody TeamTaskRequest taskRequest) {
         return taskService.updateTask(id, taskRequest);
     }
 
