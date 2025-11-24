@@ -50,15 +50,46 @@ psql -U your_username -d your_database -f sql_scripts/sql
 
 ## ⚙️ Configuration
 
-Create or update the `application.properties` file in `src/main/resources/` with your database credentials:
+### Environment Variables
 
-```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/your_database_name
-spring.datasource.username=your_username
-spring.datasource.password=your_password
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-```
+For security reasons, database credentials should be stored in environment variables rather than hardcoded in the configuration files.
+
+1. Copy the `.env.example` file to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Edit the `.env` file and update with your actual database credentials:
+   ```
+   DB_URL=jdbc:postgresql://localhost:5432/todolist
+   DB_USERNAME=postgres
+   DB_PASSWORD=your_actual_password
+   ```
+
+3. Set the environment variables before running the application:
+
+   **On Linux/Mac:**
+   ```bash
+   export DB_URL=jdbc:postgresql://localhost:5432/todolist
+   export DB_USERNAME=postgres
+   export DB_PASSWORD=your_actual_password
+   ```
+
+   **On Windows (Command Prompt):**
+   ```cmd
+   set DB_URL=jdbc:postgresql://localhost:5432/todolist
+   set DB_USERNAME=postgres
+   set DB_PASSWORD=your_actual_password
+   ```
+
+   **On Windows (PowerShell):**
+   ```powershell
+   $env:DB_URL="jdbc:postgresql://localhost:5432/todolist"
+   $env:DB_USERNAME="postgres"
+   $env:DB_PASSWORD="your_actual_password"
+   ```
+
+**Note:** The `.env` file is ignored by git and should never be committed to version control. The application properties file uses these environment variables with fallback defaults for local development.
 
 ## 🚀 Getting Started
 

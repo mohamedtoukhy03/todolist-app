@@ -45,6 +45,7 @@ public class TeamServiceImplementation implements TeamService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public TeamResponse findTeamById(Integer id) {
         Team team =  teamDAO.findTeamById(id);
         return teamMapper.toDTO(team);
@@ -66,6 +67,7 @@ public class TeamServiceImplementation implements TeamService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TeamResponse> findTeamsByUserId(Integer userId) {
         List<Team> teams =  teamDAO.findTeamsByUserId(userId);
         List<TeamResponse> teamResponses = new ArrayList<>();
