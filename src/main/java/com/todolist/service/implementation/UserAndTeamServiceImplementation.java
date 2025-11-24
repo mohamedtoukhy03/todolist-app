@@ -30,6 +30,7 @@ public class UserAndTeamServiceImplementation implements UserAndTeamService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserAndTeamResponse findUserAndTeam(UserTeamId id) {
         UserAndTeam userAndTeam = userAndTeamDAO.findUserAndTeam(id);
         return userAndTeamMapper.toDTO(userAndTeam);

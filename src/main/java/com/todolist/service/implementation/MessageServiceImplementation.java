@@ -34,6 +34,7 @@ public class MessageServiceImplementation implements MessageService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public MessageResponse findMessageById(Integer id) {
         Message message = messageDAO.findMessageById(id);
         return messageMapper.toDTO(message);
@@ -55,6 +56,7 @@ public class MessageServiceImplementation implements MessageService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<MessageResponse> findMessagesByTeamId(Integer teamId) {
         List<Message> messages = messageDAO.getMessagesByTeamId(teamId);
         List<MessageResponse> messageResponses = new ArrayList<>();
@@ -63,6 +65,7 @@ public class MessageServiceImplementation implements MessageService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<MessageResponse> findMessageByUserId(Integer userId) {
         List<Message> messages = messageDAO.getMessagesByUserId(userId);
         List<MessageResponse> messageResponses = new ArrayList<>();
@@ -71,6 +74,7 @@ public class MessageServiceImplementation implements MessageService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<MessageResponse> findMessageByUserIdAndTeamId(Integer userId, Integer teamId) {
         List<Message> messages = messageDAO.getMessageByUserIdAndTeamId(userId, teamId);
         List<MessageResponse> messageResponses = new ArrayList<>();

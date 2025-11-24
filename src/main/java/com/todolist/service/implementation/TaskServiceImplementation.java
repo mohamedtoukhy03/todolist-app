@@ -33,6 +33,7 @@ public class TaskServiceImplementation implements TaskService {
     }
 
     @Override
+    @Transactional
     public TaskResponse createTask(IndividualTaskRequest taskRequest) {
         Task task = taskMapper.toTask(taskRequest);
         task = taskDAO.createTask(task);
@@ -40,6 +41,7 @@ public class TaskServiceImplementation implements TaskService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TaskResponse> findTasksByTeamId(Integer teamId) {
         List<Task> tasks = taskDAO.findTasksByTeamId(teamId);
         List<TaskResponse> taskResponses = new ArrayList<>();
@@ -48,6 +50,7 @@ public class TaskServiceImplementation implements TaskService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public TaskResponse findTaskById(Integer id) {
         Task task = taskDAO.findTaskById(id);
         return taskMapper.toDTO(task);
@@ -78,6 +81,7 @@ public class TaskServiceImplementation implements TaskService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TaskResponse> findTasksByUserId(Integer userId) {
         List<Task> tasks = taskDAO.findTasksByUserId(userId);
         List<TaskResponse> taskResponses = new ArrayList<>();
@@ -86,6 +90,7 @@ public class TaskServiceImplementation implements TaskService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TaskResponse> findTasksByTeamIdAndUserId(Integer teamId, Integer userId) {
         List<Task> tasks = taskDAO.findTasksByTeamIdAndUserId(teamId, userId);
         List<TaskResponse> taskResponses = new ArrayList<>();
@@ -94,6 +99,7 @@ public class TaskServiceImplementation implements TaskService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TaskResponse> findIndividualTasksByUserId(Integer userId) {
         List<Task> tasks = taskDAO.findIndividualTasksByUserId(userId);
         List<TaskResponse> taskResponses = new ArrayList<>();

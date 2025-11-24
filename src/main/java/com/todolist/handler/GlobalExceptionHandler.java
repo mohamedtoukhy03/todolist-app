@@ -15,7 +15,7 @@ import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(
             MethodArgumentNotValidException e) {
         Map<String, String> errors = new HashMap<>();
@@ -27,13 +27,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<EntityError> handleEntityNotFoundException(EntityNotFoundException ex) {
         EntityError error = new EntityError(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<EntityError> handleException(RuntimeException ex) {
         EntityError error = new EntityError(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);

@@ -36,12 +36,14 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserResponse findUserByNickName(String nickName) {
         User u =  userDAO.findUserByNickName(nickName);
         return userMapper.toDTO(u, u.getUserAuth());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserResponse findUserById(Integer id) {
         User u = userDAO.findUserById(id);
         return userMapper.toDTO(u, u.getUserAuth());
@@ -73,6 +75,7 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<UserResponse> findUsersByTeamId(Integer teamId) {
         List<User> users = userDAO.findUsersByTeamId(teamId);
         List<UserResponse> userResponses = new ArrayList<>();
