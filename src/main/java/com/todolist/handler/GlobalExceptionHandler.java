@@ -1,8 +1,7 @@
 package com.todolist.handler;
 
 
-import com.todolist.exception.EntityError;
-import com.todolist.exception.EntityNotFoundException;
+import com.todolist.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -31,6 +30,30 @@ public class GlobalExceptionHandler {
     public ResponseEntity<EntityError> handleEntityNotFoundException(EntityNotFoundException ex) {
         EntityError error = new EntityError(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<EntityError> handleBadRequestException(BadRequestException ex) {
+        EntityError error = new EntityError(ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<EntityError> handleUnauthorizedException(UnauthorizedException ex) {
+        EntityError error = new EntityError(ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<EntityError> handleForbiddenException(ForbiddenException ex) {
+        EntityError error = new EntityError(ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(DuplicateEntityException.class)
+    public ResponseEntity<EntityError> handleDuplicateEntityException(DuplicateEntityException ex) {
+        EntityError error = new EntityError(ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(RuntimeException.class)

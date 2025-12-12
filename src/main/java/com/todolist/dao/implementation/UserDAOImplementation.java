@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserDAOImplementation implements UserDAO {
@@ -68,5 +69,14 @@ public class UserDAOImplementation implements UserDAO {
         if (users.isEmpty())
             throw new EntityNotFoundException("No users found for team with id: " + teamId);
         return users;
+    }
+
+    @Override
+    public Optional<User> findUserByEmail(String email) {
+        return em.createQuery(
+                "SELECT u FROM User u JOIN u.userAuth ua WHERE ua.email = :email", User.class)
+                .setParameter("email", email)
+                .getResultStream()
+                .findFirst();
     }
 }

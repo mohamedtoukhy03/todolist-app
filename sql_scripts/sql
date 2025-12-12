@@ -12,7 +12,7 @@ CREATE TABLE user_auth (
   user_id   INTEGER PRIMARY KEY REFERENCES "user"(user_id) ON DELETE CASCADE,
   email     VARCHAR(255) NOT NULL UNIQUE,
   password  VARCHAR(255) NOT NULL,
-  role      VARCHAR(50) NOT NULL DEFAULT 'user'
+  role      VARCHAR(50) NOT NULL DEFAULT 'ROLE_USER'
 );
 
 -- Teams table with parent_id for one-to-many parent-child relationship

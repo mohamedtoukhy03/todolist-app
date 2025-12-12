@@ -9,11 +9,14 @@ public class UserAuth {
     @Column(name = "user_id")
     private Integer userId;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "role")
+    private String role = "ROLE_USER";
 
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
@@ -51,5 +54,13 @@ public class UserAuth {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

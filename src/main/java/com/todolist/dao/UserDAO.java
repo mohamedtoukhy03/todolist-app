@@ -4,6 +4,7 @@ package com.todolist.dao;
 import com.todolist.entity.*;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserDAO {
     // CRUD features
@@ -14,4 +15,5 @@ public interface UserDAO {
     public void deleteUserById(Integer id);
     public void deleteUserByNickName(String nickName);
     public List<User> findUsersByTeamId(Integer teamId);
+    public Optional<User> findUserByEmail(String email);
 }
