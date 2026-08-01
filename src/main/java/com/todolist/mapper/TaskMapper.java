@@ -26,6 +26,11 @@ public class TaskMapper {
         taskResponse.setTaskName(task.getTaskName());
         taskResponse.setTaskId(task.getTaskId());
         taskResponse.setTaskNote(task.getNote());
+        taskResponse.setStatus(task.getStatus());
+        taskResponse.setPriority(task.getPriority());
+        taskResponse.setDueDate(task.getDueDate());
+        taskResponse.setCreatedAt(task.getCreatedAt());
+        taskResponse.setUpdatedAt(task.getUpdatedAt());
         return taskResponse;
     }
 
@@ -33,6 +38,9 @@ public class TaskMapper {
         Task task = new Task();
         task.setTaskName(taskResponse.getTaskName());
         task.setNote(taskResponse.getTaskNote());
+        if (taskResponse.getStatus() != null) task.setStatus(taskResponse.getStatus());
+        if (taskResponse.getPriority() != null) task.setPriority(taskResponse.getPriority());
+        if (taskResponse.getDueDate() != null) task.setDueDate(taskResponse.getDueDate());
         taskResponse.getUserTeamIds().forEach(id -> task.addUserAndTeam(userAndTeamDAO.findUserAndTeam(id)));
         return task;
     }
@@ -41,6 +49,9 @@ public class TaskMapper {
         Task task = new Task();
         task.setTaskName(taskResponse.getTaskName());
         task.setNote(taskResponse.getTaskNote());
+        if (taskResponse.getStatus() != null) task.setStatus(taskResponse.getStatus());
+        if (taskResponse.getPriority() != null) task.setPriority(taskResponse.getPriority());
+        if (taskResponse.getDueDate() != null) task.setDueDate(taskResponse.getDueDate());
         task.setUser(userDAO.findUserById(taskResponse.getUserId()));
         return task;
     }

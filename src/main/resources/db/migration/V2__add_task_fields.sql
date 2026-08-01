@@ -1,0 +1,7 @@
+-- Add status, priority, due_date, created_at, updated_at to task table
+ALTER TABLE task 
+  ADD COLUMN status VARCHAR(50) NOT NULL DEFAULT 'TODO',
+  ADD COLUMN priority VARCHAR(50) NOT NULL DEFAULT 'MEDIUM',
+  ADD COLUMN due_date TIMESTAMP,
+  ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;

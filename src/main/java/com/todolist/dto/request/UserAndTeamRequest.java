@@ -1,5 +1,6 @@
 package com.todolist.dto.request;
 
+import com.todolist.entity.enums.TeamRole;
 import jakarta.validation.constraints.NotNull;
 
 public class UserAndTeamRequest {
@@ -8,6 +9,8 @@ public class UserAndTeamRequest {
 
     @NotNull
     private Integer teamId;
+
+    private TeamRole teamRole = TeamRole.TEAM_MEMBER;
 
     public Integer getUserId() {
         return userId;
@@ -23,5 +26,13 @@ public class UserAndTeamRequest {
 
     public void setTeamId(Integer teamId) {
         this.teamId = teamId;
+    }
+
+    public TeamRole getTeamRole() {
+        return teamRole;
+    }
+
+    public void setTeamRole(TeamRole teamRole) {
+        this.teamRole = teamRole;
     }
 }

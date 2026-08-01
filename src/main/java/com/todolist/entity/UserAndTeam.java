@@ -1,5 +1,6 @@
 package com.todolist.entity;
 
+import com.todolist.entity.enums.TeamRole;
 import com.todolist.entity.id.UserTeamId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -22,6 +23,10 @@ public class UserAndTeam {
     @MapsId("userId")
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "team_role", nullable = false)
+    private TeamRole teamRole = TeamRole.TEAM_MEMBER;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.REFRESH})
@@ -48,6 +53,13 @@ public class UserAndTeam {
     public UserAndTeam(Team team, User user) {
         this.team = team;
         this.user = user;
+        this.teamRole = TeamRole.TEAM_MEMBER;
+    }
+
+    public UserAndTeam(Team team, User user, TeamRole teamRole) {
+        this.team = team;
+        this.user = user;
+        this.teamRole = teamRole != null ? teamRole : TeamRole.TEAM_MEMBER;
     }
 
     public List<Task> getTasks() {
@@ -82,5 +94,13 @@ public class UserAndTeam {
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public TeamRole getTeamRole() {
+        return teamRole;
+    }
+
+    public void setTeamRole(TeamRole teamRole) {
+        this.teamRole = teamRole;
     }
 }

@@ -22,6 +22,7 @@ public class UserAndTeamMapper {
     public UserAndTeamResponse toDTO(UserAndTeam userAndTeam) {
         UserAndTeamResponse userAndTeamResponse = new UserAndTeamResponse();
         userAndTeamResponse.setUserTeamId(userAndTeam.getId());
+        userAndTeamResponse.setTeamRole(userAndTeam.getTeamRole());
         return userAndTeamResponse;
     }
 
@@ -29,6 +30,9 @@ public class UserAndTeamMapper {
         UserAndTeam userAndTeam = new UserAndTeam();
         userAndTeam.setUser(userDAO.findUserById(userAndTeamRequest.getUserId()));
         userAndTeam.setTeam(teamDAO.findTeamById(userAndTeamRequest.getTeamId()));
+        if (userAndTeamRequest.getTeamRole() != null) {
+            userAndTeam.setTeamRole(userAndTeamRequest.getTeamRole());
+        }
         return userAndTeam;
     }
 }
