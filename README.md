@@ -25,71 +25,43 @@ A full-featured Todo List application built with Spring Boot 3.5.6 and PostgreSQ
 
 Before running this application, make sure you have the following installed:
 
-- Java 24 or higher
+- Java 21 or higher
 - PostgreSQL database
 - Maven 3.6+ (or use the included Maven wrapper)
 
-## 🗄️ Database Schema
+## 🗄️ Database Schema & Migrations
 
-The application uses the following main entities:
+The application uses **Flyway** for database migrations. Database tables are created automatically on application startup from `src/main/resources/db/migration/V1__initial_schema.sql`.
 
-- **User**: User accounts with authentication
-- **Team**: Teams with hierarchical structure (parent-child relationships)
-- **Task**: Tasks that can be assigned to users
-- **User_Team_Tasks**: Many-to-many relationship for task assignments
-- **Messages**: Team messaging functionality
+Main entities:
+- **User**: User accounts with authentication (`"user"`, `user_auth`)
+- **Team**: Teams with hierarchical structure (`team`)
+- **Task**: Tasks assigned to individual users or teams (`task`)
+- **User_Team_Task**: Composite relationship linking users, teams, and tasks (`user_team_task`)
+- **Messages**: Team messaging functionality (`messages`)
 
 ### Database Setup
 
-1. Create a PostgreSQL database for the application
-2. Run the SQL script located in `sql_scripts/sql` to create the required tables:
-
-```bash
-psql -U your_username -d your_database -f sql_scripts/sql
-```
-
-## ⚙️ Configuration
-
-### Environment Variables
-
-For security reasons, database credentials should be stored in environment variables rather than hardcoded in the configuration files.
-
-1. Copy the `.env.example` file to `.env`:
-   ```bash
-   cp .env.example .env
+1. Create a PostgreSQL database (e.g. `todolist`) in your local PostgreSQL instance:
+   ```sql
+   CREATE DATABASE todolist;
    ```
+2. Flyway will run the initial migration automatically when you start the Spring Boot app.
 
-2. Edit the `.env` file and update with your actual database credentials:
-   ```
+## ⚙️ Configuration (.env & Environment Variables)
+
+The application uses **`spring-dotenv`** to automatically load environment variables from a local `.env` file at application startup.
+
+### Local Configuration Steps:
+
+1. Create a `.env` file in the project root directory:
+   ```env
    DB_URL=jdbc:postgresql://localhost:5432/todolist
    DB_USERNAME=postgres
    DB_PASSWORD=your_actual_password
    ```
 
-3. Set the environment variables before running the application:
-
-   **On Linux/Mac:**
-   ```bash
-   export DB_URL=jdbc:postgresql://localhost:5432/todolist
-   export DB_USERNAME=postgres
-   export DB_PASSWORD=your_actual_password
-   ```
-
-   **On Windows (Command Prompt):**
-   ```cmd
-   set DB_URL=jdbc:postgresql://localhost:5432/todolist
-   set DB_USERNAME=postgres
-   set DB_PASSWORD=your_actual_password
-   ```
-
-   **On Windows (PowerShell):**
-   ```powershell
-   $env:DB_URL="jdbc:postgresql://localhost:5432/todolist"
-   $env:DB_USERNAME="postgres"
-   $env:DB_PASSWORD="your_actual_password"
-   ```
-
-**Note:** The `.env` file is ignored by git and should never be committed to version control. The application properties file uses these environment variables with fallback defaults for local development.
+> **Security Note:** `.env` contains private credentials and is listed in `.gitignore` so it is **never** committed to Git.
 
 ## 🚀 Getting Started
 
