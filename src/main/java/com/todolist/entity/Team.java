@@ -28,6 +28,17 @@ public class Team {
     @JoinColumn(name = "parent_id")
     private Team parent;
 
+    @OneToMany(mappedBy = "parent", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private List<Team> children;
+
+    public List<Team> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Team> children) {
+        this.children = children;
+    }
+
 
     public void addUserAndTeam(UserAndTeam userTeam) {
         if (userAndTeam == null) {

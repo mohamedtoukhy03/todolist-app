@@ -2,6 +2,7 @@ package com.todolist.dao.implementation;
 
 import com.todolist.dao.TaskDAO;
 import com.todolist.entity.Task;
+import com.todolist.exception.EntityNotFoundException;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Repository;
 import java.util.List;

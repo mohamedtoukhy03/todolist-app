@@ -2,8 +2,8 @@ package com.todolist.dao.implementation;
 
 import com.todolist.dao.MessageDAO;
 import com.todolist.entity.Message;
+import com.todolist.exception.EntityNotFoundException;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 

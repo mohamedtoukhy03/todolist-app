@@ -3,8 +3,8 @@ package com.todolist.dao.implementation;
 import com.todolist.dao.UserAndTeamDAO;
 import com.todolist.entity.UserAndTeam;
 import com.todolist.entity.id.UserTeamId;
+import com.todolist.exception.EntityNotFoundException;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 

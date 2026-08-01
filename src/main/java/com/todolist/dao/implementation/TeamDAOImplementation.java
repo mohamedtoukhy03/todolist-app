@@ -2,6 +2,7 @@ package com.todolist.dao.implementation;
 
 import com.todolist.dao.TeamDAO;
 import com.todolist.entity.*;
+import com.todolist.exception.EntityNotFoundException;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Repository;
 
@@ -35,7 +36,7 @@ public class TeamDAOImplementation implements TeamDAO {
     @Override
     public List<Team> findParentOfTeam(Integer id) {
         List<Team> parents = em.createQuery(
-                        "SELECT p FROM Team t JOIN t.parents p WHERE t.teamId = :id",
+                        "SELECT t.parent FROM Team t WHERE t.teamId = :id AND t.parent IS NOT NULL",
                         Team.class)
                 .setParameter("id", id)
                 .getResultList();
@@ -49,7 +50,7 @@ public class TeamDAOImplementation implements TeamDAO {
     @Override
     public List<Team> findChildOfTeam(Integer id) {
         List<Team> children = em.createQuery(
-                        "SELECT c FROM Team t JOIN t.children c WHERE t.teamId = :id",
+                        "SELECT c FROM Team c WHERE c.parent.teamId = :id",
                         Team.class)
                 .setParameter("id", id)
                 .getResultList();

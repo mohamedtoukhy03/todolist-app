@@ -6,6 +6,7 @@ import com.todolist.dto.response.UserResponse;
 import com.todolist.entity.*;
 import com.todolist.mapper.UserMapper;
 import com.todolist.service.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,12 +17,14 @@ import java.util.List;
 @Service
 public class UserServiceImplementation implements UserService {
 
-    UserDAO  userDAO;
-    UserMapper userMapper;
+    private final UserDAO userDAO;
+    private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImplementation(UserDAO userDAO, UserMapper userMapper) {
+    public UserServiceImplementation(UserDAO userDAO, UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userMapper = userMapper;
         this.userDAO = userDAO;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -29,6 +32,7 @@ public class UserServiceImplementation implements UserService {
     public UserResponse createUser(UserRequest userRequest) {
         User u = userMapper.toUser(userRequest);
         UserAuth userAuth = userMapper.toAuth(userRequest);
+        userAuth.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         u.addUserAuth(userAuth);
         u = userDAO.createUser(u);
         return userMapper.toDTO(u, u.getUserAuth());
@@ -55,6 +59,7 @@ public class UserServiceImplementation implements UserService {
         userDAO.findUserById(userId);
         User tempUser =  userMapper.toUser(userRequest);
         UserAuth userAuth = userMapper.toAuth(userRequest);
+        userAuth.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         userAuth.setUserId(userId);
         tempUser.setUserId(userId);
         tempUser.addUserAuth(userAuth);

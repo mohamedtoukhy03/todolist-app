@@ -19,7 +19,6 @@ public class TeamMapper {
         Team team = new Team();
         team.setTeamName(teamRequest.getTeamName());
         team.setTeamDescription(teamRequest.getTeamDescription());
-        team.setTeamDescription(teamRequest.getTeamDescription());
         return team;
     }
 }
